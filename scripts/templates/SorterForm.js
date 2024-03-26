@@ -42,7 +42,7 @@ class SorterForm {
     }
 
     render() {
-        console.log('Données des recettes:', this.RecipesData)
+        // console.log('Données des recettes:', this.RecipesData)
         
          this.Fabrik = new Fabrik();
         this.Fabrik.createfiltre('ingrédient' , 'ingrédient', 'ingrédient')

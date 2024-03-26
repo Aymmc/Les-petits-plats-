@@ -20,7 +20,7 @@ class Fabrik{
         divfiltre.appendChild(filtreul);
         this.$recipeswrapper.appendChild(divfiltre)
      }
-     createCarte(Titre, Paragraphe, Ingrediant){
+     createCarte(Titre, Paragraphe, Ingredient, Quantity ){
         const divcarte = document.createElement('div');
         const divimg = document.createElement('div');
         const divtexte = document.createElement('div');
@@ -31,6 +31,7 @@ class Fabrik{
         const h3ingrédient = document.createElement('h3');
         const paragraphe = document.createElement('p');
         const pingrediant = document.createElement('p')
+        const pquantity = document.createElement('p')
 
         divimg.classList.add('divimg');
         divtexte.classList.add('divtexte');
@@ -45,7 +46,9 @@ class Fabrik{
         divtexte.appendChild(divtexterecette);
         h3ingrédient.textContent= 'Ingrédient'
         divtexteingrédient.appendChild(h3ingrédient);
-        pingrediant.textContent= Ingrediant
+        pingrediant.textContent= Ingredient
+        pquantity.textContent= Quantity
+        divtexteingrédient.appendChild(pquantity)
         divtexteingrédient.appendChild(pingrediant)
         divtexte.appendChild(divtexteingrédient)
 

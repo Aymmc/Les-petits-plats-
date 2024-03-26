@@ -4,22 +4,21 @@ class App {
         // Sélection des éléments DOM nécessaires
         this.RecipesApi = new RecipesApi('../data/recipes.json'); // Instanciation de l'API des photographes
 
-        
+
     }
-    async fetchRecipes(){
+    async fetchRecipes() {
         this.RecipesData = await this.RecipesApi.get();
         console.log('Données des recettes:', this.RecipesData); // Afficher les données récupérées dans la console
-        return this.RecipesData; 
+        return this.RecipesData;
     }
-    afficherRecette(){
+    afficherRecette() { 
+   
         this.RecipesData.forEach((RecipesData) => {
-            let i = 0 
+           
             this.Fabrik = new Fabrik()
+          
             
-            for (let i = 0; i < RecipesData.ingredients.length; i++){
-            this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients[i].quantity)
-           console.log(RecipesData.ingredients)
-        }
+            this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients[0].ingredient, RecipesData.ingredients[0].quantity )
         });
     }
     async main() {
