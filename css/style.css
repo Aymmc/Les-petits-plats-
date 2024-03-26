@@ -85,3 +85,22 @@ border-radius: 10px;
     border-radius: 11px;
 background: #FFF;
 }
+.filtrerecipes{
+    color: wheat;
+    text-decoration: none;
+    
+}
+.filtrerecipes ul {
+    list-style-type: none;
+}
+
+/* -------------------------------Section Recettes---------------------------------- */
+.sectioncarterecette{
+    display: flex;
+    justify-content: center;
+}
+.carterecette{
+    display: grid;
+    grid-template-columns: repeat(3, 380px);
+    grid-gap: 48px;
+}

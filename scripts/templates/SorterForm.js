@@ -28,14 +28,14 @@ class SorterForm {
         }
     }
 
-    onChangeSorter() {
-        this.$wrapper
-            .querySelector('form')
-            .addEventListener('change', e => {
-                const sorter = e.target.value
-                this.sorterMovies(sorter)
-            })
-    }
+    // onChangeSorter() {
+    //     this.$wrapper
+    //         .querySelector('form')
+    //         .addEventListener('change', e => {
+    //             const sorter = e.target.value
+    //             this.sorterMovies(sorter)
+    //         })
+    // }
 
     clearMoviesWrapper() {
         this.$moviesWrapper.innerHTML = ""
@@ -50,7 +50,7 @@ class SorterForm {
         this.Fabrik.createfiltre('Ustensiles' , 'Ustensiles', 'Ustensiles')
 
 
-        this.onChangeSorter()
+        // this.onChangeSorter()
         
 
         

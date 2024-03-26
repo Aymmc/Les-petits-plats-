@@ -2,7 +2,8 @@ class Fabrik{
     constructor(){
         this.body = document.querySelector('body');
         this.Main = document.querySelector('main');
-        this.$recipeswrapper = document.querySelector('.recipes');
+        this.$recipeswrapper = document.querySelector('.filtrerecipes');
+        this.cartwrapper = document.querySelector('.carterecette')
 
     }
      createfiltre(ClassName, Name , Resultat){
@@ -17,10 +18,38 @@ class Fabrik{
         filtreul.classList.add(ClassName);
         filtreul.appendChild(filtreli);
         divfiltre.appendChild(filtreul);
-        
-        
-
-
         this.$recipeswrapper.appendChild(divfiltre)
+     }
+     createCarte(Titre, Paragraphe, Ingrediant){
+        const divcarte = document.createElement('div');
+        const divimg = document.createElement('div');
+        const divtexte = document.createElement('div');
+        const divtexterecette = document.createElement('div');
+        const divtexteingrédient = document.createElement('div');
+        const h2 = document.createElement('h2');
+        const h3recette = document.createElement('h3');
+        const h3ingrédient = document.createElement('h3');
+        const paragraphe = document.createElement('p');
+        const pingrediant = document.createElement('p')
+
+        divimg.classList.add('divimg');
+        divtexte.classList.add('divtexte');
+        divcarte.classList.add('card');
+        h2.textContent = Titre;
+        divtexte.appendChild(h2);
+        h3recette.textContent = 'Recette';
+        divtexterecette.classList.add('divtexterecette')
+        divtexterecette.appendChild(h3recette);
+        paragraphe.textContent = Paragraphe;
+        divtexterecette.appendChild(paragraphe);
+        divtexte.appendChild(divtexterecette);
+        h3ingrédient.textContent= 'Ingrédient'
+        divtexteingrédient.appendChild(h3ingrédient);
+        pingrediant.textContent= Ingrediant
+        divtexteingrédient.appendChild(pingrediant)
+        divtexte.appendChild(divtexteingrédient)
+
+        divcarte.appendChild(divtexte)
+        this.cartwrapper.appendChild(divcarte)
      }
 }
