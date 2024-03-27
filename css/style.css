@@ -11,6 +11,7 @@
 
 .container {
     max-width: 1440px !important;
+    background: #EDEDED;
 }
 
 h2 {
@@ -38,6 +39,7 @@ font-size: 14px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
+margin-bottom: unset;
 }
 header {
     /* background-image: url(../assets/backroung.png);
@@ -98,7 +100,7 @@ section {
     margin-right: 243px;
     position: relative;
     margin-top: 29px;
-
+    margin-bottom: 209px;
 }
 
 .divrecherche button {
@@ -116,17 +118,21 @@ section {
     border-radius: 11px;
     background: #FFF;
 }
-
-.filtrerecipes {
-    color: wheat;
-    text-decoration: none;
+.wrapperfiltre P{
+    /* color: white */
+}
+.wrapperfiltre{
+    padding: 17px 16px;
+align-items: center;
+gap: 63px;
 
 }
-
-.filtrerecipes ul {
-    list-style-type: none;
+.wrapperfiltre input{
+    display: none;
 }
-
+.filtrerecipes{
+    display: flex;
+}
 /* -------------------------------Section Recettes---------------------------------- */
 .sectioncarterecette {
     display: flex;
@@ -142,7 +148,9 @@ section {
 .card {
     width: 380px;
     padding-bottom: 61px;
+    height: 731px;
     border-radius: 21px;
+    border: none;
 }
 
 .card img {
@@ -163,3 +171,34 @@ section {
     padding-right: 25px;
     padding-left: 25px;
 }
+.pQuantité{
+    color: var(--Grey);
+}
+.pIngredient{
+    font-weight: 500;
+}
+.divtexte h2 {
+    margin-top: 32px;
+    margin-bottom: 29px
+}
+.divtexterecette h3 , .divtexteingrédient h3 {
+    margin-bottom: 15px;
+}
+.divingrédientQuantité{
+    margin-bottom: 21px;
+}
+.divtexterecette{
+    margin-bottom: 32px;
+}
+.divtexterecette p {
+
+    max-width: 330px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 75px;
+    text-overflow: ellipsis;
+}
+
+
+
+

@@ -44,10 +44,10 @@ class SorterForm {
     render() {
         // console.log('Données des recettes:', this.RecipesData)
         
-         this.Fabrik = new Fabrik();
-        this.Fabrik.createfiltre('ingrédient' , 'ingrédient', 'ingrédient')
-        this.Fabrik.createfiltre('Appareil' , 'Appareil', 'Appareil')
-        this.Fabrik.createfiltre('Ustensiles' , 'Ustensiles', 'Ustensiles')
+        //  this.Fabrik = new Fabrik();
+        // this.Fabrik.createfiltre('ingrédient' , 'ingrédient', 'ingrédient')
+        // this.Fabrik.createfiltre('Appareil' , 'Appareil', 'Appareil')
+        // this.Fabrik.createfiltre('Ustensiles' , 'Ustensiles', 'Ustensiles')
 
 
         // this.onChangeSorter()
