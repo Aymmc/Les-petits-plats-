@@ -18,7 +18,7 @@ class App {
             this.Fabrik = new Fabrik()
           
             
-            this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients[0].ingredient, RecipesData.ingredients[0].quantity )
+            this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients, RecipesData.image )
         });
     }
     async main() {

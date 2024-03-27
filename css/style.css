@@ -1,14 +1,43 @@
 :root {
     --Yellow: #FFD15B;
-
+    --Grey: #7A7A7A;
+    --Black: #1B1B1B;
 }
 
-*{
+* {
     margin: 0;
     padding: 0;
 }
+
 .container {
-    max-width: 1440px!important;
+    max-width: 1440px !important;
+}
+
+h2 {
+    color: #000;
+    font-family: Anton;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+h3 {
+    color: var(--Grey);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 1.08px;
+    text-transform: uppercase;
+}
+p{
+    color: var(--Black);
+font-family: Manrope;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
 }
 header {
     /* background-image: url(../assets/backroung.png);
@@ -55,52 +84,82 @@ section {
     margin-right: 275px;
     text-align: center;
 }
-.chercher{
- 
-}
-.barrederecherche{
+
+.chercher {}
+
+.barrederecherche {
     width: 954px;
-height: 72px;
+    height: 72px;
 
 }
-.divrecherche{
+
+.divrecherche {
     margin-left: 243px;
     margin-right: 243px;
     position: relative;
     margin-top: 29px;
-    
+
 }
-.divrecherche button{
+
+.divrecherche button {
     position: absolute;
     top: 10px;
     left: 890px;
     width: 51px;
-height: 52px;
-border: none;
-background-color: #1B1B1B;
-border-radius: 10px;
+    height: 52px;
+    border: none;
+    background-color: #1B1B1B;
+    border-radius: 10px;
 }
 
-.divrecherche input{
+.divrecherche input {
     border-radius: 11px;
-background: #FFF;
+    background: #FFF;
 }
-.filtrerecipes{
+
+.filtrerecipes {
     color: wheat;
     text-decoration: none;
-    
+
 }
+
 .filtrerecipes ul {
     list-style-type: none;
 }
 
 /* -------------------------------Section Recettes---------------------------------- */
-.sectioncarterecette{
+.sectioncarterecette {
     display: flex;
     justify-content: center;
 }
-.carterecette{
+
+.carterecette {
     display: grid;
     grid-template-columns: repeat(3, 380px);
     grid-gap: 48px;
+}
+
+.card {
+    width: 380px;
+    padding-bottom: 61px;
+    border-radius: 21px;
+}
+
+.card img {
+    width: 380px;
+    height: 253px;
+    object-fit: cover;
+    border-radius: 21px 21px 0px 0px;
+}
+
+.divingrédient {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+}
+
+.divtexte,
+.divtexteingrédient {
+    padding-right: 25px;
+    padding-left: 25px;
 }
