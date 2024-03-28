@@ -32,7 +32,7 @@ class Fabrik {
         const h3recette = document.createElement('h3');
         const h3ingrédient = document.createElement('h3');
         const paragraphe = document.createElement('p');
-
+        const divcol = document.createElement('div')
 
         img.src = `../assets/photos_recettes/${Src}`;
         divimg.classList.add('divimg');
@@ -40,6 +40,8 @@ class Fabrik {
         divcarte.appendChild(divimg)
         divtexte.classList.add('divtexte');
         divcarte.classList.add('card');
+        divcol.classList.add('col');
+        divcol.classList.add('cardrecipes');
         h2.textContent = Titre;
         divtexte.appendChild(h2);
         h3recette.textContent = 'Recette';
@@ -69,7 +71,8 @@ class Fabrik {
         divtexteingrédient.appendChild(divingrédient)
         divcarte.appendChild(divtexte);
         divcarte.appendChild(divtexteingrédient)
-        this.cartwrapper.appendChild(divcarte);
+        divcol.appendChild(divcarte)
+        this.cartwrapper.appendChild(divcol);
     }
 
 }

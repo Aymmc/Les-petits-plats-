@@ -9,7 +9,7 @@
     padding: 0;
 }
 
-.container {
+.corp {
     max-width: 1440px !important;
     background: #EDEDED;
 }
@@ -70,7 +70,9 @@ section {
     position: relative;
     z-index: 2;
 }
-
+.cardrecipes{
+padding-bottom: 61px;
+}
 
 /* -------------------------------Section Cherchez---------------------------------- */
 .titre {
@@ -121,28 +123,35 @@ section {
 .wrapperfiltre P{
     /* color: white */
 }
-.wrapperfiltre{
-    padding: 17px 16px;
-align-items: center;
-gap: 63px;
 
-}
-.wrapperfiltre input{
+.filtre input{
     display: none;
 }
 .filtrerecipes{
-    display: flex;
+   
+}
+.barre{
+    text-align: center;
+    display: inline-flex;
+    padding: 17px 16px;
+    align-items: center;
+    gap: 63px;
+    border-radius: 11px;
+    background: #FFF;
+}
+.Ingredient{
+    margin-right: 66px;
+}
+.Appareils{
+    margin-right: 64px;
+}
+.filtrerecipes{
+    margin-top: 20px;
 }
 /* -------------------------------Section Recettes---------------------------------- */
 .sectioncarterecette {
     display: flex;
     justify-content: center;
-}
-
-.carterecette {
-    display: grid;
-    grid-template-columns: repeat(3, 380px);
-    grid-gap: 48px;
 }
 
 .card {
