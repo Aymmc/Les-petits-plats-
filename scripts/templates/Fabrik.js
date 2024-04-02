@@ -6,23 +6,18 @@ class Fabrik {
         this.cartwrapper = document.querySelector('.carterecette')
 
     }
-    createfiltre(ClassName, Name, Resultat) {
-        const divfiltre = document.createElement('div');
-        divfiltre.classList.add('.filterWrapper');
-        const nom = document.createElement('p');
-        nom.textContent = Name;
-        const input = document.createElement('input');
-        const filtreul = document.createElement('ul');
-        const filtreli = document.createElement('li');
-        filtreli.textContent = Resultat;
-        filtreul.classList.add(ClassName);
-        filtreul.appendChild(filtreli);
-        divfiltre.appendChild(filtreul);
-        this.$recipeswrapper.appendChild(divfiltre)
+    createTotal(Resultat) {
+        const divtotal = document.createElement('div')
+        const total = document.createElement('p')
+        divtotal.classList.add('divtotalrecette')
+        total.classList.add('totalrecette')
+        total.textContent = Resultat + " recettes"
+        divtotal.appendChild(total)
+        this.$recipeswrapper.appendChild(divtotal)
     }
-    createCarte(Titre, Paragraphe, Ingredients = [], Src) {
+    createCarte(Titre, Paragraphe, Ingredients = [], Src, Time) {
         const img = document.createElement('img')
-        const divcarte = document.createElement('div');
+        const divcarte = document.createElement('article');
         const divimg = document.createElement('div');
         const divtexte = document.createElement('div');
         const divtexterecette = document.createElement('div');
@@ -33,8 +28,11 @@ class Fabrik {
         const h3ingrédient = document.createElement('h3');
         const paragraphe = document.createElement('p');
         const divcol = document.createElement('div')
+        const time = document.createElement('p')
 
         img.src = `../assets/photos_recettes/${Src}`;
+        time.textContent = Time + "mins",
+            divimg.appendChild(time)
         divimg.classList.add('divimg');
         divimg.appendChild(img)
         divcarte.appendChild(divimg)
