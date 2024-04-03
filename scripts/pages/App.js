@@ -39,7 +39,7 @@ class App {
          this.RecipesData.forEach((RecipesData) => {
 
             this.Fabrik = new Fabrik()
-
+            
 
             this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients, RecipesData.image, RecipesData.time)
         });
