@@ -32,22 +32,47 @@ class App {
             });
         });
     }
-
     afficherIngredients() {
-        this.listeingredient = document.querySelector('.menuingredient')
-        const ingredients = new Set(); // Utiliser un ensemble pour stocker les ingrédients uniques
+        // Sélection de l'élément HTML où afficher la liste des ingrédients
+        this.listeingredient = document.querySelector('.ulingre');
+        
+        // Utilisation d'un ensemble pour stocker les ingrédients uniques
+        const ingredients = new Set(); 
+        
+        // Parcours de chaque recette pour récupérer les ingrédients uniques
         this.RecipesData.forEach(recipe => {
             recipe.ingredients.forEach(ingredient => {
                 ingredients.add(ingredient.ingredient);
             });
         });
-
-        // console.log('Ingrédients différents:');
+    
+        // Affichage des ingrédients uniques dans la liste
         ingredients.forEach(ingredient => {
-            // console.log(ingredient);
-            this.Fabrik.createListe(ingredient, this.listeingredient)
+            this.Fabrik.createListe(ingredient, this.listeingredient);
+        });
+        
+        // Ajout d'un écouteur d'événement pour le champ de recherche d'ingrédients
+        const searchInput = document.querySelector('#site-searchIngredient');
+        searchInput.addEventListener("input", e => {
+            // Récupération du terme de recherche et conversion en minuscules
+            const searchTerm = e.target.value.toLowerCase();
+            
+            // Filtrage des ingrédients en fonction du terme de recherche
+            const filteredIngredients = new Set(Array.from(ingredients).filter(ingredient =>
+                ingredient.toLowerCase().includes(searchTerm)
+            ));
+            
+            // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
+            this.listeingredient.innerHTML = '';
+            
+            // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
+            filteredIngredients.forEach(ingredient => {
+                this.Fabrik.createListe(ingredient, this.listeingredient);
+            });
         });
     }
+    
+  
     afficherAppareil() {
         this.listeappareil = document.querySelector('.menuappareil')
         const Appliance = new Set(); // Utiliser un ensemble pour stocker les appareils uniques
@@ -56,6 +81,7 @@ class App {
         });
     
         console.log('Appareils différents:');
+        
         Appliance.forEach(appar => {
             console.log(appar);
             this.Fabrik.createListe(appar, this.listeappareil)
