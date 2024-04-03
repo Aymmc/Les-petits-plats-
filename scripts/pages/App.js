@@ -9,8 +9,8 @@ class App {
     async fetchRecipes() {
         this.RecipesData = await this.RecipesApi.get();
         const nombreDeRecettes = this.RecipesData.length;
-        console.log('Nombre de recettes:', nombreDeRecettes);
-        console.log('Données des recettes:', this.RecipesData); // Afficher les données récupérées dans la console
+        // console.log('Nombre de recettes:', nombreDeRecettes);
+        // console.log('Données des recettes:', this.RecipesData); // Afficher les données récupérées dans la console
 
         return this.RecipesData;
 
@@ -74,23 +74,36 @@ class App {
     
   
     afficherAppareil() {
-        this.listeappareil = document.querySelector('.menuappareil')
+        this.listeappareil = document.querySelector('.ulapp')
         const Appliance = new Set(); // Utiliser un ensemble pour stocker les appareils uniques
         this.RecipesData.forEach(recipe => {
             Appliance.add(recipe.appliance); // Ajouter l'appareil de chaque recette à l'ensemble
-        });
-    
-        console.log('Appareils différents:');
-        
+        });  
         Appliance.forEach(appar => {
-            console.log(appar);
             this.Fabrik.createListe(appar, this.listeappareil)
         });
+        
+        const searchInput = document.querySelector('#site-searchApp');
+        searchInput.addEventListener("input", e => {
+            // Récupération du terme de recherche et conversion en minuscules
+            const searchTerm = e.target.value.toLowerCase();
+            
+            // Filtrage des ingrédients en fonction du terme de recherche
+            const filteredAppliance = new Set(Array.from(Appliance).filter(appar =>
+                appar.toLowerCase().includes(searchTerm)
+            ));
+            
+            // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
+            this.listeappareil.innerHTML = '';
+            
+            // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
+            filteredAppliance.forEach(appar => {
+                this.Fabrik.createListe(appar, this.listeappareil);
+            });
+        });
     }
-    
-
     afficherUstensil() {
-        this.listeustensil = document.querySelector('.menuustensil')
+        this.listeustensil = document.querySelector('.ulus')
         const Ustensil = new Set(); // Utiliser un ensemble pour stocker les ustensiles uniques
         this.RecipesData.forEach(recipe => {
             recipe.ustensils.forEach(ustensil => { // Utiliser ustensil au lieu de recipe.ustensils
@@ -98,20 +111,31 @@ class App {
                 Ustensil.add(name);
             });
         });
-    
-
         Ustensil.forEach(ustensil => {
             this.Fabrik.createListe(ustensil, this.listeustensil)
         })
+        const searchInput = document.querySelector('#site-searchustensil');
+        searchInput.addEventListener("input", e => {
+            // Récupération du terme de recherche et conversion en minuscules
+            const searchTerm = e.target.value.toLowerCase();
+            
+            // Filtrage des ingrédients en fonction du terme de recherche
+            const filteredUstensil = new Set(Array.from(Ustensil).filter(ustensil =>
+                ustensil.toLowerCase().includes(searchTerm)
+            ));
+            
+            // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
+            this.listeustensil.innerHTML = '';
+        
+            // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
+            filteredUstensil.forEach(ustensil => {
+                this.Fabrik.createListe(ustensil, this.listeustensil);
+            });
+        });
     }
-    
     afficherRecette() {
-
          this.RecipesData.forEach((RecipesData) => {
-
             this.Fabrik = new Fabrik()
-
-
             this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients, RecipesData.image, RecipesData.time)
         });
     }
