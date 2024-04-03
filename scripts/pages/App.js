@@ -33,7 +33,52 @@ class App {
         });
     }
 
+    afficherIngredients() {
+        this.listeingredient = document.querySelector('.menuingredient')
+        const ingredients = new Set(); // Utiliser un ensemble pour stocker les ingrédients uniques
+        this.RecipesData.forEach(recipe => {
+            recipe.ingredients.forEach(ingredient => {
+                ingredients.add(ingredient.ingredient);
+            });
+        });
 
+        // console.log('Ingrédients différents:');
+        ingredients.forEach(ingredient => {
+            // console.log(ingredient);
+            this.Fabrik.createListe(ingredient, this.listeingredient)
+        });
+    }
+    afficherAppareil() {
+        this.listeappareil = document.querySelector('.menuappareil')
+        const Appliance = new Set(); // Utiliser un ensemble pour stocker les appareils uniques
+        this.RecipesData.forEach(recipe => {
+            Appliance.add(recipe.appliance); // Ajouter l'appareil de chaque recette à l'ensemble
+        });
+    
+        console.log('Appareils différents:');
+        Appliance.forEach(appar => {
+            console.log(appar);
+            this.Fabrik.createListe(appar, this.listeappareil)
+        });
+    }
+    
+
+    afficherUstensil() {
+        this.listeustensil = document.querySelector('.menuustensil')
+        const Ustensil = new Set(); // Utiliser un ensemble pour stocker les ustensiles uniques
+        this.RecipesData.forEach(recipe => {
+            recipe.ustensils.forEach(ustensil => { // Utiliser ustensil au lieu de recipe.ustensils
+                const name = ustensil.toLowerCase(); // Nettoyer l'ustensile en le mettant en minuscules
+                Ustensil.add(name);
+            });
+        });
+    
+
+        Ustensil.forEach(ustensil => {
+            this.Fabrik.createListe(ustensil, this.listeustensil)
+        })
+    }
+    
     afficherRecette() {
 
          this.RecipesData.forEach((RecipesData) => {
@@ -55,7 +100,9 @@ class App {
         this.afficherRecette();
         this.afficherresultat()
         this.flechechangement()
-
+        this.afficherIngredients();
+        this.afficherUstensil()
+        this.afficherAppareil()
     }
 }
 // Création d'une instance de la classe App et exécution de la fonction principale

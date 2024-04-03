@@ -4,6 +4,7 @@ class Fabrik {
         this.Main = document.querySelector('main');
         this.$recipeswrapper = document.querySelector('.filtrerecipes');
         this.cartwrapper = document.querySelector('.carterecette')
+       
 
     }
     createTotal(Resultat) {
@@ -72,5 +73,14 @@ class Fabrik {
         divcol.appendChild(divcarte)
         this.cartwrapper.appendChild(divcol);
     }
-
+    createListe(list, parentElement) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.classList.add('dropdown-item');
+        a.href = "#";
+        a.textContent = list;
+        li.appendChild(a);
+        parentElement.appendChild(li);
+    }
+    
 }
