@@ -36,54 +36,56 @@
             </section> -->
             <section class="container filtrerecipes d-flex justify-content-between">
                 <div class="d-flex flex-row">
-                <div class="dropdown text-center filtre ">
-                    <a class="btn btn-secondary bg-white text-dark dropdown-toggle toggle Ingredient" href="#"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ingrédient
-                        <img src="assets/fleche.png" alt="" class="fleche fleche1">
-                    </a>
+                    <div class="dropdown text-center filtre ">
+                        <a class="btn btn-secondary bg-white text-dark dropdown-toggle toggle Ingredient ingredients"
+                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ingrédient
+                            <img src="assets/fleche.png" alt="" class="fleche fleche1">
+                        </a>
 
-                    <ul class="dropdown-menu filterul menuingredient">
-                        <li><input type="search" id="site-searchIngredient" class="rechercheIngredient" name="q" /></li>
-                       <ul class="ulingre">
+                        <ul class="dropdown-menu filterul menuingredient">
+                            <li><input type="search" id="site-searchIngredient" class="rechercheIngredient" name="q" />
+                            </li>
+                            <ul class="ulingre">
 
-                       </ul>
-                    </ul>
-                </div>
-                <div class="dropdown text-center filtre ">
-                    <a class="btn btn-secondary bg-white text-dark dropdown-toggle toggle Appareils" href="#"
-                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                        Appareil
-                        <img src="assets/fleche.png" alt="" class="fleche fleche1">
-                    </a>
-
-                    <ul class="dropdown-menu filterul menuappareil">
-                        <li><input type="search" id="site-searchApp" class="rechercheIngredient" name="q" /></li>
-                        <ul class="ulapp">
-
+                            </ul>
                         </ul>
-                    </ul>
-                </div>
-                <div class="dropdown text-center filtre ">
-                    <a class="btn btn-secondary bg-white text-dark dropdown-toggle toggle" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Ustensiles
-                        <img src="assets/fleche.png" alt="" class="fleche fleche2">
-                    </a>
+                    </div>
+                    <div class="dropdown text-center filtre ">
+                        <a class="btn btn-secondary bg-white text-dark dropdown-toggle toggle Appareils appliance"
+                            href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-                    <ul class="dropdown-menu menuustensil">
-                        <li><input type="search" id="site-searchustensil" class="rechercheIngredient" name="q" /></li>
-                       <ul class="ulus">
+                            Appareil
+                            <img src="assets/fleche.png" alt="" class="fleche fleche1">
+                        </a>
 
+                        <ul class="dropdown-menu filterul menuappareil">
+                            <li><input type="search" id="site-searchApp" class="rechercheIngredient" name="q" /></li>
+                            <ul class="ulapp">
+
+                            </ul>
                         </ul>
-                    </ul>
+                    </div>
+                    <div class="dropdown text-center filtre ">
+                        <a class="btn btn-secondary bg-white text-dark dropdown-toggle toggle ustensils" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ustensiles
+                            <img src="assets/fleche.png" alt="" class="fleche fleche2">
+                        </a>
+
+                        <ul class="dropdown-menu menuustensil">
+                            <li><input type="search" id="site-searchustensil" class="rechercheIngredient" name="q" />
+                            </li>
+                            <ul class="ulus">
+
+                            </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-                
+
             </section>
             <div class="accueilselecterecherche">
-            <!-- <div class="d-flex align-items-center selectrecherche ">
+                <!-- <div class="d-flex align-items-center selectrecherche ">
                     <p class="recherche">Creme de coco</p>
                     <button><svg xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
                         <path d="M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5" stroke="#1B1B1B" stroke-width="2.16667" stroke-linecap="round" stroke-linejoin="round"/>
@@ -101,6 +103,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="/scripts/templates/SorterForm.js"></script>
+    <script src="/scripts/templates/FilterForm.js"> </script>
     <script src="/scripts/pages/api/Api.js"></script>
     <script src="/scripts/pages/App.js"></script>
     <script src="/scripts/templates/ProxyRatingSorter.js"></script>
