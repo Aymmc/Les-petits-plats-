@@ -101,6 +101,7 @@ class Fabrik {
         const divselectRecheches = document.querySelector('.accueilselecterecherche');
         buttoncloseselect.addEventListener('click', () => {
             divselectRecheches.innerHTML = '';
+            
         });
     }
 }

@@ -27,11 +27,11 @@ class FilterForm {
         };
 
         // Supprimer les écouteurs d'événements précédents sur les éléments .dropdown-item
-        selecteRecherches.forEach(selecteRecherche => {
-            selecteRecherche.removeEventListener('click', handleClick);
-        });
+        // selecteRecherches.forEach(selecteRecherche => {
+        //     selecteRecherche.removeEventListener('click', handleClick);
+        // });
 
-        // Ajouter les nouveaux écouteurs d'événements sur les éléments .dropdown-item
+        // // Ajouter les nouveaux écouteurs d'événements sur les éléments .dropdown-item
         selecteRecherches.forEach(selecteRecherche => {
             selecteRecherche.addEventListener('click', handleClick);
         });
@@ -45,7 +45,7 @@ class FilterForm {
             console.log(this.classeClique);
 
         };
-
+        
         // Supprimer les écouteurs d'événements précédents sur les boutons .btn-secondary
         a.forEach(bouton => {
             bouton.removeEventListener('click', handleClick2);
@@ -163,7 +163,8 @@ class FilterForm {
         });
     }
     Filtrer() {
-    
+        this.divtotalrecette = document.querySelector('.divtotalrecette')
+        this.cartwrapper = document.querySelector('.carterecette')
         const filtres = document.querySelectorAll('.recherche')
         filtres.forEach(filtre => {
             const resultatfiltre = filtre.textContent
@@ -190,10 +191,17 @@ class FilterForm {
                     console.log('appareil')
                     return recipe.appliance.includes(resultatfiltre);
                 }
+               
             });
-
+            this.cartwrapper.innerHTML = '';
+            recipesWithSpecificClass.forEach((recipesWithSpecificClass) => {
+         
+                this.Fabrik = new Fabrik()
+                this.Fabrik.createCarte(recipesWithSpecificClass.name, recipesWithSpecificClass.description, recipesWithSpecificClass.ingredients, recipesWithSpecificClass.image, recipesWithSpecificClass.time)
+            });
             console.log(recipesWithSpecificClass);
-           
+            this.divtotalrecette.innerHTML = ''; 
+            this.Fabrik.createTotal(recipesWithSpecificClass.length)
 
 
 
