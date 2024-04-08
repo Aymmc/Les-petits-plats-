@@ -3,7 +3,9 @@
     --Grey: #7A7A7A;
     --Black: #1B1B1B;
 }
-
+ul{
+    padding: unset;
+}
 .dropdown-toggle::after {
 
     display: none;
@@ -205,11 +207,14 @@ header {
     background-color: var(--Yellow);
     margin-bottom: 47px;
     margin-left: 57px;
+    position: relative;
 }
 
 .selectrecherche button {
     border: none;
     background: none;
+    position: absolute;
+    left: 173px;
 }
 
 .divtotalrecette {
@@ -311,4 +316,20 @@ header {
 
     font-weight: 400;
 
+}
+
+
+
+/* -------------------------------Modife fait avec boucle foreach---------------------------------- */
+.dropdown-menu.show{
+    height: 215px;
+    overflow: hidden;
+    width: 195px;
+}
+li input {
+    width: 163px;
+height: 37px;
+}
+.selecteListe {
+    background-color: var(--Yellow)
 }

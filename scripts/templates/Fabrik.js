@@ -4,7 +4,7 @@ class Fabrik {
         this.Main = document.querySelector('main');
         this.$recipeswrapper = document.querySelector('.filtrerecipes');
         this.cartwrapper = document.querySelector('.carterecette')
-       
+        this.selectrecherche = document.querySelector('.accueilselecterecherche')
 
     }
     createTotal(Resultat) {
@@ -73,14 +73,34 @@ class Fabrik {
         divcol.appendChild(divcarte)
         this.cartwrapper.appendChild(divcol);
     }
-   createListe(list, parentElement) {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.classList.add('dropdown-item');
-    a.href = "#";
-    a.textContent = list;
-    li.appendChild(a);
-    parentElement.appendChild(li);
-}
-
+    createListe(list, parentElement) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.classList.add('dropdown-item');
+        a.href = "#";
+        a.textContent = list;
+        
+        li.appendChild(a);
+        parentElement.appendChild(li);
+    }
+    createSelectRecherche(recherche){
+        const div = document.createElement('div');
+        const p = document.createElement('p')
+        const button = document.createElement('button')
+        const img = document.createElement('img')
+        div.classList.add('d-flex', 'align-items-center', 'selectrecherche')
+        p.classList.add("recherche")
+        button.classList.add('buttoncloseselect')
+        img.src="../assets/croix.svg"
+        p.textContent = recherche
+        button.appendChild(img)
+        div.appendChild(p)
+        div.appendChild(button)
+        this.selectrecherche.appendChild(div)
+        const buttoncloseselect = document.querySelector('.buttoncloseselect'); // Sélection du premier élément correspondant
+        const divselectRecheches = document.querySelector('.accueilselecterecherche');
+        buttoncloseselect.addEventListener('click', () => {
+            divselectRecheches.innerHTML = '';
+        });
+    }
 }
