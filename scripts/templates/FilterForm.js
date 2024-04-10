@@ -29,6 +29,16 @@ class FilterForm {
             // Création et affichage de la sélection de recherche
             this.Fabrik.createSelectRecherche(selecte);
             // Création et affichage de l'élément de liste correspondan 
+            
+            this.itemActive = event.target;
+            this.itemActiveParent = event.target.parentNode;
+            this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling
+
+            this.ParentNode.innerHTML = `<li><a class="dropdown-item selecteListe" href="#">${selecte}</a></li>`;
+
+            //creation dans le filtre des séléctions en dessous
+
+            this.itemActiveParent.remove(this.parentElementSelectedItembrother);
             this.Filtrer()
             this.selecteBarreDeRecherche()
         };
@@ -36,13 +46,18 @@ class FilterForm {
         selecteRecherches.forEach(selecteRecherche => {
             selecteRecherche.addEventListener('click', handleClick);
         });
+
+
+
+
+
         // Fonction pour gérer le clic sur un bouton .btn-secondary
         const handleClick2 = (event) => {
             // Récupération de la classe du bouton cliqué
             this.classeClique = event.target.classList[event.target.classList.length - 2];
 
             // Utilisez la classe du bouton pour effectuer des actions supplémentaires si nécessaire
-            console.log(this.classeClique);
+
         };
         // Supprimer les écouteurs d'événements précédents sur les boutons .btn-secondary
         a.forEach(bouton => {
@@ -169,7 +184,12 @@ class FilterForm {
         this.totalRecipes.textContent = total + ' recettes'; // Ajouter le total en tant que texte
         return total; // Renvoyer le total mis à jour si nécessaire
     }
-    effacerselectrecherche(){
+    /**
+     *Function qui permet d'effacer le selecteur de recherche 
+     *
+     * @memberof FilterForm
+     */
+    effacerselectrecherche() {
         const btnclose = document.querySelector('.buttoncloseselect');
         btnclose.addEventListener('click', () => {
             this.cartwrapper.innerHTML = '';
@@ -186,12 +206,9 @@ class FilterForm {
         const filtres = document.querySelectorAll('.recherche');
         let recettesFiltrees = this.RecipesData; // Initialisez avec toutes les recettes
         // Efface le contenu de chaque élément .divtotalrecette
-        console.log("Recettes initiales:", recettesFiltrees);
         filtres.forEach(filtre => {
             const resultatfiltre = filtre.textContent.toLowerCase(); // Convertit en minuscules
             const resultatclasse = this.classeClique.toLowerCase(); // Convertit en minuscules
-            console.log("Filtre:", resultatfiltre);
-            console.log("Classe:", resultatclasse);
             // Filtrer les recettes déjà filtrées avec le nouveau filtre
             recettesFiltrees = recettesFiltrees.filter(recipe => {
                 if (resultatclasse === "ingredients") {
@@ -202,7 +219,7 @@ class FilterForm {
                     return recipe.appliance.toLowerCase().includes(resultatfiltre); // Convertit en minuscules
                 }
             });
-            console.log("Recettes filtrées:", recettesFiltrees);
+
             // Afficher les recettes filtrées
             this.cartwrapper.innerHTML = '';
             recettesFiltrees.forEach(recipe => {
@@ -249,7 +266,7 @@ class FilterForm {
                     });
                     this.renderTotal(filteredRecipes);
                 }
-            } else if (query.length === 0) {    
+            } else if (query.length === 0) {
                 this.cartwrapper.innerHTML = '';
                 app.afficherRecette()
                 this.renderTotal(this.RecipesData);
@@ -271,13 +288,17 @@ class FilterForm {
         const matchIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query));
         return matchName || matchDescription || matchIngredients;
     }
-    selecteBarreDeRecherche(){
+    /**
+     *Function qui permet de d'afficher au submit la recherche effectuer avec le select 
+     *
+     * @memberof FilterForm
+     */
+    selecteBarreDeRecherche() {
         this.submit.addEventListener('click', () => {
             this.Fabrik.createSelectRecherche(this.recherche.value)
-            console.log(this.recherche.value);
             this.effacerselectrecherche()
         })
-        
+
     }
 }
 

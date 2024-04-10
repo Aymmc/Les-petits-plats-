@@ -321,19 +321,28 @@ header {
 
 
 /* -------------------------------Modife fait avec boucle foreach---------------------------------- */
-.dropdown-menu.show{
-    height: 215px;
-    overflow: hidden;
+.ulingre , .ulapp , .ulus {
+    height: 315px;
     width: 195px;
-    
+    overflow-y: scroll;
+    scrollbar-width: none;
+    margin-top: 24px;
 }
+.dropdown-menu ul a:hover {
+    background-color: var(--Yellow)
+}
+
 .liinput input {
     width: 163px;
 height: 37px;
 margin-left: 14px;
 border-color: #C6C6C6!important;
 }
+.liinput input:focus-visible{
+    outline: none;
+}
 .selecteListe {
+    margin-top: 24px;
     background-color: var(--Yellow)
 }
 .liinput{
