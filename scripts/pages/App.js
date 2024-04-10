@@ -8,8 +8,7 @@ class App {
     }
     async fetchRecipes() {
         this.RecipesData = await this.RecipesApi.get();
-        const nombreDeRecettes = this.RecipesData.length;
-        // console.log('Nombre de recettes:', nombreDeRecettes);
+        // console.log('Nombre de recettes:', this.RecipesData.length);
         // console.log('Données des recettes:', this.RecipesData); // Afficher les données récupérées dans la console
         
         return this.RecipesData;
@@ -54,6 +53,7 @@ class App {
         this.afficherRecette();
         this.afficherresultat()
         this.flechechangement()
+        this.FilterForm.renderTotal(this.RecipesData);
     }
 }
 // Création d'une instance de la classe App et exécution de la fonction principale
