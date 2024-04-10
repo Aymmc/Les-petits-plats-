@@ -7,6 +7,8 @@ class FilterForm {
         this.$moviesWrapper = document.querySelector('.carterecette');
         this.searchInput = document.querySelector('#site-search')
         this.cartwrapper = document.querySelector('.carterecette')
+        this.submit = document.querySelector('.divrecherche button')
+        this.recherche = document.querySelector('.divrecherche input')
         // this.ProxyRatingSorter = new ProxyRatingSorter()
     }
     /**
@@ -28,6 +30,7 @@ class FilterForm {
             this.Fabrik.createSelectRecherche(selecte);
             // Création et affichage de l'élément de liste correspondan 
             this.Filtrer()
+            this.selecteBarreDeRecherche()
         };
         // // Ajouter les nouveaux écouteurs d'événements sur les éléments .dropdown-item
         selecteRecherches.forEach(selecteRecherche => {
@@ -166,7 +169,14 @@ class FilterForm {
         this.totalRecipes.textContent = total + ' recettes'; // Ajouter le total en tant que texte
         return total; // Renvoyer le total mis à jour si nécessaire
     }
-    
+    effacerselectrecherche(){
+        const btnclose = document.querySelector('.buttoncloseselect');
+        btnclose.addEventListener('click', () => {
+            this.cartwrapper.innerHTML = '';
+            app.afficherRecette()
+            this.renderTotal(this.RecipesData)
+        });
+    }
     /**
      *Function qui filtre les ingrédients les ustentsils et les appareilles 
      *
@@ -201,12 +211,7 @@ class FilterForm {
             });
             this.renderTotal(recettesFiltrees);
             // Ajouter un écouteur d'événement pour le bouton de fermeture
-            const btnclose = document.querySelector('.buttoncloseselect');
-            btnclose.addEventListener('click', () => {
-                this.cartwrapper.innerHTML = '';
-                app.afficherRecette()
-                this.renderTotal(this.RecipesData)
-            });
+            this.effacerselectrecherche()
         });
     }
     /**
@@ -229,8 +234,8 @@ class FilterForm {
             <div class="row">
               <div class="col">
                 <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
-                  <h2 class=" m-4">Il n'y a pas de termes contenant ces recettes</h2>
-                  <h3 class="m-4"> Veuillez choisir un autre filtre, ingrédient ou ustensil.<br>
+                  <h2 class=" m-4">Aucune recette ne contient '${query}' vous pouvez chercher</h2>
+                  <h3 class="m-4">«tarte aux pommes », « poisson », etc.<br>
                   <p class="m-2">Merci.</p>
                 </div>
               </div>
@@ -241,11 +246,10 @@ class FilterForm {
                     this.cartwrapper.innerHTML = '';
                     filteredRecipes.forEach(filteredRecipes => {
                         this.Fabrik.createCarte(filteredRecipes.name, filteredRecipes.description, filteredRecipes.ingredients, filteredRecipes.image, filteredRecipes.time);
-
                     });
                     this.renderTotal(filteredRecipes);
                 }
-            } else if (query.length === 0) {
+            } else if (query.length === 0) {    
                 this.cartwrapper.innerHTML = '';
                 app.afficherRecette()
                 this.renderTotal(this.RecipesData);
@@ -266,6 +270,14 @@ class FilterForm {
         const matchDescription = recipe.description.toLowerCase().includes(query);
         const matchIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query));
         return matchName || matchDescription || matchIngredients;
+    }
+    selecteBarreDeRecherche(){
+        this.submit.addEventListener('click', () => {
+            this.Fabrik.createSelectRecherche(this.recherche.value)
+            console.log(this.recherche.value);
+            this.effacerselectrecherche()
+        })
+        
     }
 }
 

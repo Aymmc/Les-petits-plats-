@@ -48,7 +48,7 @@ class App {
      */
     afficherRecette() {
         this.RecipesData.forEach((RecipesData) => {
-         
+            
             this.Fabrik = new Fabrik()
             this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients, RecipesData.image, RecipesData.time)
         });
@@ -71,13 +71,14 @@ class App {
         await this.fetchRecipes();
         this.FilterForm = new FilterForm(app, this.RecipesData); // Instanciation du formulaire de tri
         this.FilterForm.afficherIngredients();
-        this.FilterForm.afficherUstensil()
-        this.FilterForm.afficherAppareil()
-        this.FilterForm.selecteRecherche()
-        this.FilterForm.compareInputResult()
+        this.FilterForm.afficherUstensil();
+        this.FilterForm.afficherAppareil();
+        this.FilterForm.selecteRecherche();
+        this.FilterForm.compareInputResult();
+        this.FilterForm.selecteBarreDeRecherche();
         this.afficherRecette();
-        this.afficherresultat()
-        this.flechechangement()
+        this.afficherresultat();
+        this.flechechangement();
         this.FilterForm.renderTotal(this.RecipesData);
     }
 }

@@ -325,11 +325,41 @@ header {
     height: 215px;
     overflow: hidden;
     width: 195px;
+    
 }
-li input {
+.liinput input {
     width: 163px;
 height: 37px;
+margin-left: 14px;
+border-color: #C6C6C6!important;
 }
 .selecteListe {
     background-color: var(--Yellow)
+}
+.liinput{
+    position: relative;
+}
+.dropdown-menu img {
+    position: absolute;
+    top: 13px;
+    left: 155px;
+}
+#site-searchIngredient::before{
+    color: gray;
+}
+.rechercheIngredient::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    position: absolute;
+    left: 125px;
+    height: 6px;
+    width: 6px;
+    background: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 3 3' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='0.25' y1='2.75' x2='2.75' y2='0.25' stroke='grey' stroke-width='0.25'/%3e%3cline x1='0.25' y1='0.25' x2='2.75' y2='2.75' stroke='grey' stroke-width='0.25'/%3e%3c/svg%3e");
+}
+.barrederecherche::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    position: absolute;
+    left: 850px;
+    height: 12px;
+    width: 12px;
+    background: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 6 6' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='0.5' y1='5.5' x2='5.5' y2='0.5' stroke='grey' stroke-width='0.5'/%3e%3cline x1='0.5' y1='0.5' x2='5.5' y2='5.5' stroke='grey' stroke-width='0.5'/%3e%3c/svg%3e");
 }
