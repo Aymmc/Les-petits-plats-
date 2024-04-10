@@ -5,8 +5,15 @@ class FilterForm {
         this.$wrapper = document.createElement('div');
         this.Fabrik = new Fabrik()
         this.$moviesWrapper = document.querySelector('.carterecette');
+        this.searchInput = document.querySelector('#site-search')
+        this.cartwrapper = document.querySelector('.carterecette')
         // this.ProxyRatingSorter = new ProxyRatingSorter()
     }
+    /**
+     *Function qui affiche le selecte jaune quand on clicks sur un filtre
+     *
+     * @memberof FilterForm
+     */
     selecteRecherche() {
         // Sélection de tous les éléments avec la classe .dropdown-item
         const selecteRecherches = document.querySelectorAll('.dropdown-item');
@@ -43,6 +50,11 @@ class FilterForm {
             bouton.addEventListener('click', handleClick2);
         });
     }
+    /**
+     *Function qui affiche dans le selecte les Ingrédients et qui les filtres avec la barre de recherche 
+     *
+     * @memberof FilterForm
+     */
     afficherIngredients() {
         // Sélection de l'élément HTML où afficher la liste des ingrédients
         this.listeingredient = document.querySelector('.ulingre');
@@ -76,6 +88,11 @@ class FilterForm {
             });
         });
     }
+    /**
+     *Function qui affiche dans le selecte les Appareilles et qui les filtres avec la barre de recherche 
+     *
+     * @memberof FilterForm
+     */
     afficherAppareil() {
         this.listeappareil = document.querySelector('.ulapp');
         const Appliance = new Set(); // Utiliser un ensemble pour stocker les appareils uniques
@@ -102,6 +119,11 @@ class FilterForm {
             });
         });
     }
+    /**
+     *Function qui affiche dans le selecte les ustensils et qui les filtres avec la barre de recherche 
+     *
+     * @memberof FilterForm
+     */
     afficherUstensil() {
         this.listeustensil = document.querySelector('.ulus');
         const Ustensil = new Set(); // Utiliser un ensemble pour stocker les ustensiles uniques
@@ -131,31 +153,43 @@ class FilterForm {
             });
         });
     }
+    /**
+     *
+     *Function qui permet de calculer le total de recette 
+     * @param {*} array
+     * @return {*} 
+     * @memberof FilterForm
+     */
     renderTotal(array) {
         this.totalRecipes = document.querySelector(".totalrecette");
         let total = array.length; // Mettre à jour le total en utilisant le tableau passé en argument
         this.totalRecipes.textContent = total + ' recettes'; // Ajouter le total en tant que texte
         return total; // Renvoyer le total mis à jour si nécessaire
     }
+    
+    /**
+     *Function qui filtre les ingrédients les ustentsils et les appareilles 
+     *
+     * @memberof FilterForm
+     */
     Filtrer() {
-        this.cartwrapper = document.querySelector('.carterecette');
         const filtres = document.querySelectorAll('.recherche');
         let recettesFiltrees = this.RecipesData; // Initialisez avec toutes les recettes
         // Efface le contenu de chaque élément .divtotalrecette
         console.log("Recettes initiales:", recettesFiltrees);
         filtres.forEach(filtre => {
-            const resultatfiltre = filtre.textContent;
-            const resultatclasse = this.classeClique;
+            const resultatfiltre = filtre.textContent.toLowerCase(); // Convertit en minuscules
+            const resultatclasse = this.classeClique.toLowerCase(); // Convertit en minuscules
             console.log("Filtre:", resultatfiltre);
             console.log("Classe:", resultatclasse);
             // Filtrer les recettes déjà filtrées avec le nouveau filtre
             recettesFiltrees = recettesFiltrees.filter(recipe => {
                 if (resultatclasse === "ingredients") {
-                    return recipe.ingredients.some(ingredient => ingredient.ingredient.includes(resultatfiltre));
+                    return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(resultatfiltre)); // Convertit en minuscules
                 } else if (resultatclasse === "ustensils") {
-                    return recipe.ustensils.some(ustensils => ustensils.includes(resultatfiltre));
+                    return recipe.ustensils.some(ustensils => ustensils.toLowerCase().includes(resultatfiltre)); // Convertit en minuscules
                 } else if (resultatclasse === "appliance") {
-                    return recipe.appliance.includes(resultatfiltre);
+                    return recipe.appliance.toLowerCase().includes(resultatfiltre); // Convertit en minuscules
                 }
             });
             console.log("Recettes filtrées:", recettesFiltrees);
@@ -173,8 +207,65 @@ class FilterForm {
                 app.afficherRecette()
                 this.renderTotal(this.RecipesData)
             });
-
         });
+    }
+    /**
+    * Compare l'input utilisateur au dela de 3 characteres entrées et affiche un message d 'erreur si aucune terme n 'est trouvé.
+    *
+    * @memberof FilterForm
+    */
+    compareInputResult() {
+        this.searchInput.addEventListener("keyup", (e) => {
+            const query = this.searchInput.value.trim().toLowerCase();
+            if (query.length >= 3) {
+                // Filtrer les recettes en fonction de la recherche
+                const filteredRecipes = this.RecipesData.filter((recipe) => {
+                    // Vérifier si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
+                    return this.compareJSON(recipe, query);
+                });
+                // Afficher les nouvelles recettes filtrées
+                if (filteredRecipes.length === 0) {
+                    this.cartwrapper.innerHTML = `<div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
+                  <h2 class=" m-4">Il n'y a pas de termes contenant ces recettes</h2>
+                  <h3 class="m-4"> Veuillez choisir un autre filtre, ingrédient ou ustensil.<br>
+                  <p class="m-2">Merci.</p>
+                </div>
+              </div>
+            </div>
+          </div>`;
+                } else {
+                    // Afficher les nouvelles recettes filtrées
+                    this.cartwrapper.innerHTML = '';
+                    filteredRecipes.forEach(filteredRecipes => {
+                        this.Fabrik.createCarte(filteredRecipes.name, filteredRecipes.description, filteredRecipes.ingredients, filteredRecipes.image, filteredRecipes.time);
+
+                    });
+                    this.renderTotal(filteredRecipes);
+                }
+            } else if (query.length === 0) {
+                this.cartwrapper.innerHTML = '';
+                app.afficherRecette()
+                this.renderTotal(this.RecipesData);
+            }
+        });
+    }
+
+    /**
+     * Compare la recherche utilisateur au titre , description, et ingredients
+     *
+     * @param {Array<Object} recipe-l'objet de recherche
+     * @param {*} query-recherche de l 'utilisateur 
+     * @memberof FilterForm
+     */
+    compareJSON(recipe, query) {
+        // Vérifier si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
+        const matchName = recipe.name.toLowerCase().includes(query);
+        const matchDescription = recipe.description.toLowerCase().includes(query);
+        const matchIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query));
+        return matchName || matchDescription || matchIngredients;
     }
 }
 

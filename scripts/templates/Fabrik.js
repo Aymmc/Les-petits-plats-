@@ -7,6 +7,12 @@ class Fabrik {
         this.selectrecherche = document.querySelector('.accueilselecterecherche')
 
     }
+    /**
+     *Function qui crée le total 
+     *
+     * @param {*} Resultat
+     * @memberof Fabrik
+     */
     createTotal(Resultat) {
         const divtotal = document.createElement('div')
         const total = document.createElement('p')
@@ -16,6 +22,16 @@ class Fabrik {
         divtotal.appendChild(total)
         this.$recipeswrapper.appendChild(divtotal)
     }
+    /**
+     *Function qui permet de créer les cartes via le fichier json 
+     *
+     * @param {*} Titre Titre des recettes 
+     * @param {*} Paragraphe Descriptifs de des recettes 
+     * @param {*} [Ingredients=[]] Tableau des ingrédients dans les recettes 
+     * @param {*} Src Source de l'image 
+     * @param {*} Time Le temps que prends les recettes 
+     * @memberof Fabrik
+     */
     createCarte(Titre, Paragraphe, Ingredients = [], Src, Time) {
         const img = document.createElement('img')
         const divcarte = document.createElement('article');
@@ -73,6 +89,13 @@ class Fabrik {
         divcol.appendChild(divcarte)
         this.cartwrapper.appendChild(divcol);
     }
+    /**
+     *Function qui permet de créer les listes des filtres 
+     *
+     * @param {*} list
+     * @param {*} parentElement 
+     * @memberof Fabrik
+     */
     createListe(list, parentElement) {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -83,6 +106,12 @@ class Fabrik {
         li.appendChild(a);
         parentElement.appendChild(li);
     }
+    /**
+     *Funtion qui permet de créer le resultas d'un filtre (jaune)
+     *
+     * @param {*} recherche
+     * @memberof Fabrik
+     */
     createSelectRecherche(recherche){
         const div = document.createElement('div');
         const p = document.createElement('p')
