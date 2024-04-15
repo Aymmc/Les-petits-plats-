@@ -10,6 +10,7 @@ class FilterForm {
         this.submit = document.querySelector('.divrecherche button')
         this.recherche = document.querySelector('.divrecherche input')
         this.recettesFiltrees = [];
+        
         // this.ProxyRatingSorter = new ProxyRatingSorter()
     }
     /**
@@ -17,64 +18,59 @@ class FilterForm {
      *
      * @memberof FilterForm
      */
-    selecteRecherche() {
-        // Sélection de tous les éléments avec la classe .dropdown-item
+     selecteRecherche() {
         const selecteRecherches = document.querySelectorAll('.dropdown-item');
-        const a = document.querySelectorAll('.btn-secondary')
-        // Fonction pour gérer le clic sur un élément de recherche
+        const a = document.querySelectorAll('.btn-secondary');
+        const accueilSelectRecherche = document.querySelector('.accueilselecterecherche');
+    
+        // Supprimer toutes les divs existantes
+        accueilSelectRecherche.innerHTML = '';
+    
         const handleClick = (event) => {
-            // Récupération du texte de l'élément sélectionné
             const selecte = event.target.textContent;
-            // Suppression du contenu précédent dans le conteneur de sélection
-            // divselectRecheches.innerHTML = '';
-            // Création et affichage de la sélection de recherche
             this.Fabrik.createSelectRecherche(selecte);
-            // Création et affichage de l'élément de liste correspondan 
-
             this.itemActive = event.target;
             this.itemActiveParent = event.target.parentNode;
-            this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling
-
-            this.ParentNode.innerHTML = `<li><a class="dropdown-item selecteListe" href="#">${selecte}</a></li>`;
-
-            //creation dans le filtre des séléctions en dessous
-
+        
+            // Vérifier si this.itemActiveParent existe avant d'accéder à previousElementSibling
+            if (this.itemActiveParent) {
+                this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling;
+        
+                // Vérifier si this.ParentNode existe avant de modifier son innerHTML
+                if (this.ParentNode) {
+                    this.ParentNode.innerHTML = `<li><a class="dropdown-item selecteListe" href="#">${selecte}</a></li>`;
+                }
+            }
+        
             this.itemActiveParent.remove(this.parentElementSelectedItembrother);
             this.Filtrer()
             this.selecteBarreDeRecherche()
         };
-        // // Ajouter les nouveaux écouteurs d'événements sur les éléments .dropdown-item
+        
+    
         selecteRecherches.forEach(selecteRecherche => {
             selecteRecherche.addEventListener('click', handleClick);
         });
-
-
-
-
-
-        // Fonction pour gérer le clic sur un bouton .btn-secondary
+    
         const handleClick2 = (event) => {
-            // Récupération de la classe du bouton cliqué
             this.classeClique = event.target.classList[event.target.classList.length - 2];
-
-            // Utilisez la classe du bouton pour effectuer des actions supplémentaires si nécessaire
-
         };
-        // Supprimer les écouteurs d'événements précédents sur les boutons .btn-secondary
+    
         a.forEach(bouton => {
             bouton.removeEventListener('click', handleClick2);
         });
-        // Ajouter les nouveaux écouteurs d'événements sur les boutons .btn-secondary
+    
         a.forEach(bouton => {
             bouton.addEventListener('click', handleClick2);
         });
     }
+    
     /**
      *Function qui affiche dans le selecte les Ingrédients et qui les filtres avec la barre de recherche 
      *
      * @memberof FilterForm
      */
-    afficherIngredients() {
+     afficherIngredients() {
         // Sélection de l'élément HTML où afficher la liste des ingrédients
         this.listeingredient = document.querySelector('.ulingre');
         // Utilisation d'un ensemble pour stocker les ingrédients uniques
@@ -89,6 +85,10 @@ class FilterForm {
         ingredients.forEach(ingredient => {
             this.Fabrik.createListe(ingredient, this.listeingredient);
         });
+    
+        // Variable pour suivre si selecteRecherche() a déjà été appelée
+        let selecteRechercheAppelee = false;
+    
         // Ajout d'un écouteur d'événement pour le champ de recherche d'ingrédients
         const searchInput = document.querySelector('#site-searchIngredient');
         searchInput.addEventListener("input", e => {
@@ -103,10 +103,16 @@ class FilterForm {
             // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredIngredients.forEach(ingredient => {
                 this.Fabrik.createListe(ingredient, this.listeingredient);
-                this.selecteRecherche();
             });
+            // Appeler selecteRecherche seulement si elle n'a pas déjà été appelée
+            if (!selecteRechercheAppelee) {
+                this.selecteRecherche();
+                selecteRechercheAppelee = true;
+            }
         });
     }
+    
+    
     /**
      *Function qui affiche dans le selecte les Appareilles et qui les filtres avec la barre de recherche 
      *
@@ -129,13 +135,17 @@ class FilterForm {
             const filteredAppliance = new Set(Array.from(Appliance).filter(appar =>
                 appar.toLowerCase().includes(searchTerm)
             ));
+            let selecteRechercheAppelee = false;
             // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
             this.listeappareil.innerHTML = '';
             // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredAppliance.forEach(appar => {
                 this.Fabrik.createListe(appar, this.listeappareil);
-                this.selecteRecherche();
             });
+            if (!selecteRechercheAppelee) {
+                this.selecteRecherche();
+                selecteRechercheAppelee = true;
+            }
         });
     }
     /**
@@ -165,11 +175,16 @@ class FilterForm {
             ));
             // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
             this.listeustensil.innerHTML = '';
+            let selecteRechercheAppelee = false;
             // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredUstensil.forEach(ustensil => {
                 this.Fabrik.createListe(ustensil, this.listeustensil);
-                this.selecteRecherche();
+         
             });
+            if (!selecteRechercheAppelee) {
+                this.selecteRecherche();
+                selecteRechercheAppelee = true;
+            }
         });
     }
     /**
@@ -263,7 +278,7 @@ class FilterForm {
               </div>`;
 
                 this.recettesFiltrees = [];
-
+                
             } else {
                 this.recettesFiltrees = nouvellesRecettesFiltrees; // Sinon, mettre à jour le tableau avec les nouvelles recettes filtrées
             }
