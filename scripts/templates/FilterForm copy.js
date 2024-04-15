@@ -9,7 +9,6 @@ class FilterForm {
         this.cartwrapper = document.querySelector('.carterecette')
         this.submit = document.querySelector('.divrecherche button')
         this.recherche = document.querySelector('.divrecherche input')
-        this.recettesFiltrees = [];
         // this.ProxyRatingSorter = new ProxyRatingSorter()
     }
     /**
@@ -30,7 +29,7 @@ class FilterForm {
             // Création et affichage de la sélection de recherche
             this.Fabrik.createSelectRecherche(selecte);
             // Création et affichage de l'élément de liste correspondan 
-
+            
             this.itemActive = event.target;
             this.itemActiveParent = event.target.parentNode;
             this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling
@@ -196,7 +195,6 @@ class FilterForm {
             this.cartwrapper.innerHTML = '';
             app.afficherRecette()
             this.renderTotal(this.RecipesData)
-            this.recettesFiltrees = [];
         });
     }
     /**
@@ -205,81 +203,33 @@ class FilterForm {
      * @memberof FilterForm
      */
     Filtrer() {
-        console.log(document.querySelector('.accueilselecterecherche'));
-        const accueilSelectRecherche = document.querySelector('.accueilselecterecherche');
-        const divs = accueilSelectRecherche.querySelectorAll('div');
-
-
-        if (divs.length === 1) {
-            divs.forEach(filtre => {
-                this.RecipesData.forEach(recipe => {
-                    let estInclus = false;
-                    const resultatfiltre = filtre.textContent.toLowerCase();
-                    const resultatclasse = this.classeClique.toLowerCase();
-                    if (resultatclasse === "ingredients") {
-                        estInclus = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(resultatfiltre));
-                    } else if (resultatclasse === "ustensils") {
-                        estInclus = recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(resultatfiltre));
-                    } else if (resultatclasse === "appliance") {
-                        estInclus = recipe.appliance.toLowerCase().includes(resultatfiltre);
-                    }
-                    if (estInclus) {
-                        this.recettesFiltrees.push(recipe);
-                    }
-                });
+        const filtres = document.querySelectorAll('.recherche');
+        let recettesFiltrees = this.RecipesData; // Initialisez avec toutes les recettes
+        // Efface le contenu de chaque élément .divtotalrecette
+        filtres.forEach(filtre => {
+            const resultatfiltre = filtre.textContent.toLowerCase(); // Convertit en minuscules
+            const resultatclasse = this.classeClique.toLowerCase(); // Convertit en minuscules
+            // Filtrer les recettes déjà filtrées avec le nouveau filtre
+            recettesFiltrees = recettesFiltrees.filter(recipe => {
+                if (resultatclasse === "ingredients") {
+                    return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(resultatfiltre)); // Convertit en minuscules
+                } else if (resultatclasse === "ustensils") {
+                    return recipe.ustensils.some(ustensils => ustensils.toLowerCase().includes(resultatfiltre)); // Convertit en minuscules
+                } else if (resultatclasse === "appliance") {
+                    return recipe.appliance.toLowerCase().includes(resultatfiltre); // Convertit en minuscules
+                }
             });
-            console.log("Une seule div trouvée. Filtrer dans le tableau filtré ou this.RecipesData :", this.recettesFiltrees);
-        } else if (divs.length > 1) {
-            const nouvellesRecettesFiltrees = []; // Créer un nouveau tableau pour stocker les nouvelles recettes filtrées
-            divs.forEach(filtre => {
-                this.recettesFiltrees.forEach(recipe => {
-                    let estInclus = false;
-                    const resultatfiltre = filtre.textContent.toLowerCase();
-                    const resultatclasse = this.classeClique.toLowerCase();
-                    if (resultatclasse === "ingredients") {
-                        estInclus = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(resultatfiltre));
-                    } else if (resultatclasse === "ustensils") {
-                        estInclus = recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(resultatfiltre));
-                    } else if (resultatclasse === "appliance") {
-                        estInclus = recipe.appliance.toLowerCase().includes(resultatfiltre);
-                    }
-                    if (estInclus) {
-                        nouvellesRecettesFiltrees.push(recipe);
-                    }
-                });
+
+            // Afficher les recettes filtrées
+            this.cartwrapper.innerHTML = '';
+            recettesFiltrees.forEach(recipe => {
+                this.Fabrik = new Fabrik();
+                this.Fabrik.createCarte(recipe.name, recipe.description, recipe.ingredients, recipe.image, recipe.time);
             });
-            // Si aucune nouvelle recette n'est filtrée, vider le tableau
-            if (nouvellesRecettesFiltrees.length === 0) {
-                this.cartwrapper.innerHTML = `<div class="container">
-                <div class="row">
-                  <div class="col">
-                    <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
-                      <h2 class=" m-4">Aucune recette ne contient les filtres selectionné vous pouvez chercher</h2>
-                      <h3 class="m-4">«tarte aux pommes », « poisson », etc.<br>
-                      <p class="m-2">Merci.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>`;
-
-                this.recettesFiltrees = [];
-
-            } else {
-                this.recettesFiltrees = nouvellesRecettesFiltrees; // Sinon, mettre à jour le tableau avec les nouvelles recettes filtrées
-            }
-            console.log("Plus d'une div trouvée. Filtrer dans le tableau filtré précédent :", this.recettesFiltrees);
-        } else {
-            console.log("Aucune div trouvée. Filtrer dans le tableau filtré précédent ou this.RecipesData :", this.recettesFiltrees);
-        }
-        console.log(this.recettesFiltrees);
-        // Afficher les recettes filtrées
-        this.cartwrapper.innerHTML = '';
-        this.recettesFiltrees.forEach(recipe => {
-            this.Fabrik.createCarte(recipe.name, recipe.description, recipe.ingredients, recipe.image, recipe.time);
+            this.renderTotal(recettesFiltrees);
+            // Ajouter un écouteur d'événement pour le bouton de fermeture
+            this.effacerselectrecherche()
         });
-        this.renderTotal(this.recettesFiltrees);
-        // Ajouter un écouteur d'événement pour le bouton de fermeture
-        this.effacerselectrecherche();
     }
     /**
     * Compare l'input utilisateur au dela de 3 characteres entrées et affiche un message d 'erreur si aucune terme n 'est trouvé.
