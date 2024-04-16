@@ -126,11 +126,13 @@ class Fabrik {
         div.appendChild(p)
         div.appendChild(button)
         this.selectrecherche.appendChild(div)
-        const buttoncloseselect = document.querySelector('.buttoncloseselect'); // Sélection du premier élément correspondant
+        const buttoncloseselect = document.querySelectorAll('.buttoncloseselect'); // Sélection du premier élément correspondant
         const divselectRecheches = document.querySelector('.accueilselecterecherche');
-        buttoncloseselect.addEventListener('click', () => {
+        buttoncloseselect.forEach(close => {
+            close.addEventListener('click', () => {
             divselectRecheches.innerHTML = '';
             
         });
+    })
     }
 }
