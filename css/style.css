@@ -348,7 +348,7 @@ border-color: #C6C6C6!important;
 .liinput{
     position: relative;
 }
-.dropdown-menu img {
+.dropdown-menu .loupe {
     position: absolute;
     top: 13px;
     left: 155px;
@@ -371,4 +371,32 @@ border-color: #C6C6C6!important;
     height: 12px;
     width: 12px;
     background: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 6 6' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='0.5' y1='5.5' x2='5.5' y2='0.5' stroke='grey' stroke-width='0.5'/%3e%3cline x1='0.5' y1='0.5' x2='5.5' y2='5.5' stroke='grey' stroke-width='0.5'/%3e%3c/svg%3e");
+}
+#site-search::placeholder{
+    color: var(--Grey);
+font-family: Manrope;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+#site-search{
+    padding-left: 30px;
+}
+.parentNode a {
+    cursor: auto;
+}
+.parentNode button {
+    border: none;
+    width: 17px;
+    position: absolute;
+    top: 7%;
+    left: 87%;
+    background: none;
+height: 17px;
+
+}
+
+.parentNode {
+    position: relative;
 }

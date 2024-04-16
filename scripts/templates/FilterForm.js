@@ -19,15 +19,10 @@ class FilterForm {
      * @memberof FilterForm
      */
      selecteRecherche() {
-        // const buttonclose = document.querySelectorAll('.buttoncloseselect')
         const selecteRecherches = document.querySelectorAll('.dropdown-item');
         const a = document.querySelectorAll('.btn-secondary');
-        // const accueilSelectRecherche = document.querySelector('.accueilselecterecherche');
     
         // Supprimer toutes les divs existantes
-        // accueilSelectRecherche.innerHTML = '';
-    
-        
     
         selecteRecherches.forEach(selecteRecherche => {
             selecteRecherche.addEventListener('click', this.handleClick);
@@ -46,6 +41,7 @@ class FilterForm {
     }
     
     handleClick = (event) => {
+        this.buttoncloseselecte = document.querySelectorAll('.closeselecte')
         const selecte = event.target.textContent;
         this.Fabrik.createSelectRecherche(selecte);
         this.itemActive = event.target;
@@ -59,8 +55,15 @@ class FilterForm {
     
             // Vérifier si this.ParentNode existe avant de modifier son innerHTML
             if (this.ParentNode) {
-                this.ParentNode.innerHTML = `<li><a class="dropdown-item selecteListe" href="#">${selecte}</a></li>`;
+                this.ParentNode.innerHTML = `<li class="parentNode"><a class="dropdown-item selecteListe" href="#">${selecte}</a> <button> <img class="closeselecte" src="../assets/croix2.svg"> </button> </li>`;
+              this.buttoncloseselecte.forEach(close => {
+                close.addEventListener('click', () => {
+                    this.ParentNode.innerHTML = ''
+                    console.log('test');
+                })
+            })
             }
+           
         }
     
         this.itemActiveParent.remove(this.parentElementSelectedItembrother);
@@ -201,6 +204,9 @@ class FilterForm {
             app.afficherRecette()
             this.renderTotal(this.RecipesData)
             this.recettesFiltrees = [];
+            this.arrayFilter = [];
+            console.log(this.arrayFilter);
+
         });
     })
     }
