@@ -41,28 +41,30 @@ class FilterForm {
     }
 
     handleClick = (event) => {
-        this.buttoncloseselecte = document.querySelectorAll('.closeselecte')
         const selecte = event.target.textContent;
         this.Fabrik.createSelectRecherche(selecte);
         this.itemActive = event.target;
         this.itemActiveParent = event.target.parentNode;
 
         this.arrayFilter.push(selecte)
-        console.log(this.arrayFilter);
         // Vérifier si this.itemActiveParent existe avant d'accéder à previousElementSibling
         if (this.itemActiveParent) {
             this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling;
 
             // Vérifier si this.ParentNode existe avant de modifier son innerHTML
             if (this.ParentNode) {
-                this.ParentNode.innerHTML = `<li class="parentNode"><a class="dropdown-item selecteListe" href="#">${selecte}</a> <button> <img class="closeselecte" src="../assets/croix2.svg"> </button> </li>`;
-                this.buttoncloseselecte.forEach(close => {
-                    close.addEventListener('click', () => {
-                        this.ParentNode.innerHTML = ''
-                        console.log('test');
-                    })
-                })
+                this.ParentNode.innerHTML = `<li class="parentNode"><a class="dropdown-item selecteListe" href="#">${selecte}</a> <button class="closeselecteButton"> <img class="closeselecte" src="../assets/croix2.svg"> </button> </li>`;
+                const buttoncloseselecteList = this.ParentNode.querySelectorAll('.closeselecteButton');
+            
+                buttoncloseselecteList.forEach(button => {
+                    button.addEventListener('click', () => {
+                        this.effacerselectrecherche()
+                        this.ParentNode.innerHTML = "" 
+                        
+                    });
+                });
             }
+            
 
         }
 
@@ -196,26 +198,31 @@ class FilterForm {
      *
      * @memberof FilterForm
      */
-    effacerselectrecherche() {
+     effacerselectrecherche() {
         // Sélection de tous les boutons de fermeture
         const btnclose = document.querySelectorAll('.buttoncloseselect');
         // Ajout d'un gestionnaire d'événements à chaque bouton de fermeture
         btnclose.forEach(close => {
-            close.addEventListener('click', () => {
+            close.addEventListener('click', (e) => {
+                // Récupération du texte de l'élément parent avant la suppression
+                const removedText = close.previousElementSibling.textContent.trim();
+                // Suppression de l'élément de la liste des filtres actifs
+                this.arrayFilter = this.arrayFilter.filter(
+                    (element) => element.toLowerCase() !== removedText.toLowerCase()
+                );
                 // Suppression de l'élément parent de l'élément bouton de fermeture
                 close.parentElement.remove();
                 // Nettoyage du contenu de cartwrapper
                 this.cartwrapper.innerHTML = '';
-                // Réinitialisation de la sélection des filtres
-                this.arrayFilter.pop();
-                console.log(this.arrayFilter);
-                // Affichage de toutes les recettes
-                app.afficherRecette();
-                // Rendu du total avec toutes les recettes
-                this.renderTotal(this.RecipesData);
+                // Réaffichage des recettes filtrées
+                this.Filtrer();
+                // Rendu du total avec les recettes filtrées
+                this.renderTotal(this.recipesFiltered);
             });
-        }); 
+        });
     }
+    
+    
     /**
      *Function qui filtre les ingrédients les ustentsils et les appareilles 
      *
@@ -245,7 +252,7 @@ class FilterForm {
 
         // Si aucune recette ne correspond aux filtres sélectionnés
         if (nouvellesRecettesFiltrees.length === 0) {
-            console.log('test');
+            this.renderTotal(nouvellesRecettesFiltrees);
             // Affichage d'un message indiquant qu'aucune recette ne correspond aux filtres
             this.cartwrapper.innerHTML = `<div class="container">
             <div class="row">
@@ -264,17 +271,17 @@ class FilterForm {
         } else {
             // Si des recettes correspondent aux filtres, les enregistrer dans la liste des recettes filtrées
             this.recipesFiltered = nouvellesRecettesFiltrees;
-                // Effacement du contenu précédent de la zone d'affichage des recettes
-        this.cartwrapper.innerHTML = '';
-        
-        // Affichage des cartes des recettes filtrées
-      app.afficherRecette(this.recipesFiltered)
-        // Affichage du total des recettes filtrées
-        this.renderTotal(this.recipesFiltered);
-        // Effacement de la sélection de recherche
+            // Effacement du contenu précédent de la zone d'affichage des recettes
+            this.cartwrapper.innerHTML = '';
+
+            // Affichage des cartes des recettes filtrées
+            app.afficherRecette(this.recipesFiltered)
+            // Affichage du total des recettes filtrées
+            this.renderTotal(this.recipesFiltered);
+            // Effacement de la sélection de recherche
 
         }
-    
+
     }
 
 
@@ -294,6 +301,7 @@ class FilterForm {
                 });
                 // Afficher les nouvelles recettes filtrées
                 if (filteredRecipes.length === 0) {
+                    this.renderTotal(filteredRecipes);
                     this.cartwrapper.innerHTML = `<div class="container">
             <div class="row">
               <div class="col">

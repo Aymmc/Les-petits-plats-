@@ -46,8 +46,8 @@ class App {
      *
      * @memberof App
      */
-    afficherRecette() {
-        this.RecipesData.forEach((RecipesData) => {
+    afficherRecette(array) {
+        array.forEach((RecipesData) => {
             
             this.Fabrik = new Fabrik()
             this.Fabrik.createCarte(RecipesData.name, RecipesData.description, RecipesData.ingredients, RecipesData.image, RecipesData.time)
@@ -76,7 +76,7 @@ class App {
         this.FilterForm.selecteRecherche();
         this.FilterForm.compareInputResult();
         this.FilterForm.selecteBarreDeRecherche();
-        this.afficherRecette();
+        this.afficherRecette(this.RecipesData);
         this.afficherresultat();
         this.flechechangement();
         this.FilterForm.renderTotal(this.RecipesData);
