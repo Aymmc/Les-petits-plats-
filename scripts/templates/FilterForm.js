@@ -18,59 +18,59 @@ class FilterForm {
      *
      * @memberof FilterForm
      */
-     selecteRecherche() {
+    selecteRecherche() {
         const selecteRecherches = document.querySelectorAll('.dropdown-item');
         const a = document.querySelectorAll('.btn-secondary');
-    
+
         // Supprimer toutes les divs existantes
-    
+
         selecteRecherches.forEach(selecteRecherche => {
             selecteRecherche.addEventListener('click', this.handleClick);
         });
         const handleClick2 = (event) => {
             this.classeClique = event.target.classList[event.target.classList.length - 2];
         };
-    
+
         a.forEach(bouton => {
             bouton.removeEventListener('click', handleClick2);
         });
-    
+
         a.forEach(bouton => {
             bouton.addEventListener('click', handleClick2);
         });
     }
-    
+
     handleClick = (event) => {
         this.buttoncloseselecte = document.querySelectorAll('.closeselecte')
         const selecte = event.target.textContent;
         this.Fabrik.createSelectRecherche(selecte);
         this.itemActive = event.target;
         this.itemActiveParent = event.target.parentNode;
-        
+
         this.arrayFilter.push(selecte)
         console.log(this.arrayFilter);
         // Vérifier si this.itemActiveParent existe avant d'accéder à previousElementSibling
         if (this.itemActiveParent) {
             this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling;
-    
+
             // Vérifier si this.ParentNode existe avant de modifier son innerHTML
             if (this.ParentNode) {
                 this.ParentNode.innerHTML = `<li class="parentNode"><a class="dropdown-item selecteListe" href="#">${selecte}</a> <button> <img class="closeselecte" src="../assets/croix2.svg"> </button> </li>`;
-              this.buttoncloseselecte.forEach(close => {
-                close.addEventListener('click', () => {
-                    this.ParentNode.innerHTML = ''
-                    console.log('test');
+                this.buttoncloseselecte.forEach(close => {
+                    close.addEventListener('click', () => {
+                        this.ParentNode.innerHTML = ''
+                        console.log('test');
+                    })
                 })
-            })
             }
-           
+
         }
-    
+
         this.itemActiveParent.remove(this.parentElementSelectedItembrother);
         this.Filtrer()
         this.selecteBarreDeRecherche()
     };
-    
+
     /**
      *Function qui affiche dans le selecte les Ingrédients et qui les filtres avec la barre de recherche 
      *
@@ -92,7 +92,7 @@ class FilterForm {
             this.Fabrik.createListe(ingredient, this.listeingredient);
         });
         // Ajout d'un écouteur d'événement pour le champ de recherche d'ingrédients
-     document.querySelector('#site-searchIngredient').addEventListener("input", e => {
+        document.querySelector('#site-searchIngredient').addEventListener("input", e => {
             // Récupération du terme de recherche et conversion en minuscules
             const searchTerm = e.target.value.toLowerCase();
             // Filtrage des ingrédients en fonction du terme de recherche
@@ -104,7 +104,7 @@ class FilterForm {
             // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredIngredients.forEach(ingredient => {
                 this.Fabrik.createListe(ingredient, this.listeingredient);
-                
+
             });
             this.selecteRecherche();
         });
@@ -132,13 +132,13 @@ class FilterForm {
             const filteredAppliance = new Set(Array.from(Appliance).filter(appar =>
                 appar.toLowerCase().includes(searchTerm)
             ))
-            
+
             // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
             this.listeappareil.innerHTML = '';
             // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredAppliance.forEach(appar => {
                 this.Fabrik.createListe(appar, this.listeappareil);
-               
+
             });
             this.selecteRecherche();
         });
@@ -173,7 +173,7 @@ class FilterForm {
             // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredUstensil.forEach(ustensil => {
                 this.Fabrik.createListe(ustensil, this.listeustensil);
-                
+
             });
             this.selecteRecherche();
         });
@@ -197,66 +197,87 @@ class FilterForm {
      * @memberof FilterForm
      */
     effacerselectrecherche() {
+        // Sélection de tous les boutons de fermeture
         const btnclose = document.querySelectorAll('.buttoncloseselect');
+        // Ajout d'un gestionnaire d'événements à chaque bouton de fermeture
         btnclose.forEach(close => {
             close.addEventListener('click', () => {
-            this.cartwrapper.innerHTML = '';
-            app.afficherRecette()
-            this.renderTotal(this.RecipesData)
-            this.recettesFiltrees = [];
-            this.arrayFilter = [];
-            console.log(this.arrayFilter);
-
-        });
-    })
+                // Suppression de l'élément parent de l'élément bouton de fermeture
+                close.parentElement.remove();
+                // Nettoyage du contenu de cartwrapper
+                this.cartwrapper.innerHTML = '';
+                // Réinitialisation de la sélection des filtres
+                this.arrayFilter.pop();
+                console.log(this.arrayFilter);
+                // Affichage de toutes les recettes
+                app.afficherRecette();
+                // Rendu du total avec toutes les recettes
+                this.renderTotal(this.RecipesData);
+            });
+        }); 
     }
     /**
      *Function qui filtre les ingrédients les ustentsils et les appareilles 
      *
      * @memberof FilterForm
      */
+    // Définition de la méthode Filtrer()
     Filtrer() {
+        this.effacerselectrecherche();
+        // Filtrage des recettes en fonction des critères sélectionnés
         const nouvellesRecettesFiltrees = this.RecipesData.filter((recipe) => {
+            // Vérification si chaque filtre correspond à au moins un critère de la recette avec la méthode every
             const match = this.arrayFilter.every((filter) =>
+                // Vérification si le filtre correspond à un ingrédient de la recette
                 recipe.ingredients.some((ingredient) =>
                     ingredient.ingredient.toLowerCase().includes(filter.toLowerCase())
                 ) ||
+                // Vérification si le filtre correspond à un ustensile de la recette
                 recipe.ustensils.some((ustensil) =>
                     ustensil.toLowerCase().includes(filter.toLowerCase())
                 ) ||
+                // Vérification si le filtre correspond à l'appareil de cuisson de la recette
                 recipe.appliance.toLowerCase().includes(filter.toLowerCase())
             );
-    
+            // Retourne vrai si la recette correspond à tous les filtres
             return match;
         });
-    
+
+        // Si aucune recette ne correspond aux filtres sélectionnés
         if (nouvellesRecettesFiltrees.length === 0) {
+            console.log('test');
+            // Affichage d'un message indiquant qu'aucune recette ne correspond aux filtres
             this.cartwrapper.innerHTML = `<div class="container">
-                <div class="row">
-                    <div class="col">
-                        <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
-                            <h2 class=" m-4">Aucune recette ne contient les filtres sélectionnés. Vous pouvez rechercher d'autres recettes.</h2>
-                            <h3 class="m-4">Exemples de recherches : « tarte aux pommes », « poisson », etc.</h3>
-                            <p class="m-2">Merci.</p>
-                        </div>
+            <div class="row">
+                <div class="col">
+                    <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
+                        <h2 class=" m-4">Aucune recette ne contient les filtres sélectionnés. Vous pouvez rechercher d'autres recettes.</h2>
+                        <h3 class="m-4">Exemples de recherches : « tarte aux pommes », « poisson », etc.</h3>
+                        <p class="m-2">Merci.</p>
                     </div>
                 </div>
-            </div>`;
-    
+            </div>
+        </div>`;
+
+            // Réinitialisation de la liste des recettes filtrées
             this.recipesFiltered = [];
         } else {
+            // Si des recettes correspondent aux filtres, les enregistrer dans la liste des recettes filtrées
             this.recipesFiltered = nouvellesRecettesFiltrees;
+                // Effacement du contenu précédent de la zone d'affichage des recettes
+        this.cartwrapper.innerHTML = '';
+        
+        // Affichage des cartes des recettes filtrées
+      app.afficherRecette(this.recipesFiltered)
+        // Affichage du total des recettes filtrées
+        this.renderTotal(this.recipesFiltered);
+        // Effacement de la sélection de recherche
+
         }
     
-        this.cartwrapper.innerHTML = '';
-        this.recipesFiltered.forEach(recipe => {
-            this.Fabrik.createCarte(recipe.name, recipe.description, recipe.ingredients, recipe.image, recipe.time);
-        });
-        this.renderTotal(this.recipesFiltered);
-        this.effacerselectrecherche();
     }
-    
-    
+
+
     /**
     * Compare l'input utilisateur au dela de 3 characteres entrées et affiche un message d 'erreur si aucune terme n 'est trouvé.
     *
@@ -287,14 +308,12 @@ class FilterForm {
                 } else {
                     // Afficher les nouvelles recettes filtrées
                     this.cartwrapper.innerHTML = '';
-                    filteredRecipes.forEach(filteredRecipes => {
-                        this.Fabrik.createCarte(filteredRecipes.name, filteredRecipes.description, filteredRecipes.ingredients, filteredRecipes.image, filteredRecipes.time);
-                    });
+                    app.afficherRecette(filteredRecipes)
                     this.renderTotal(filteredRecipes);
                 }
             } else if (query.length === 0) {
                 this.cartwrapper.innerHTML = '';
-                app.afficherRecette()
+                app.afficherRecette(this.RecipesData)
                 this.renderTotal(this.RecipesData);
             }
         });

@@ -106,9 +106,6 @@ header {
     margin-right: 275px;
     text-align: center;
 }
-
-.chercher {}
-
 .barrederecherche {
     width: 954px;
     height: 72px;
@@ -136,10 +133,6 @@ header {
 .divrecherche input {
     border-radius: 11px;
     background: #FFF;
-}
-
-.wrapperfiltre P {
-    /* color: white */
 }
 
 .toggle {
