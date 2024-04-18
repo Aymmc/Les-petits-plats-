@@ -47,6 +47,13 @@ class FilterForm {
         this.itemActiveParent = event.target.parentNode;
 
         this.arrayFilter.push(selecte)
+        const divfiltre = document.querySelectorAll('.accueilselecterecherche')
+        divfiltre.forEach(element => {
+            const paragraph = element.querySelector('p');
+            console.log(paragraph);
+            console.log( this.arrayFilter);
+            // Faites quelque chose avec le paragraphe sélectionné...
+        });
         // Vérifier si this.itemActiveParent existe avant d'accéder à previousElementSibling
         if (this.itemActiveParent) {
             this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling;
@@ -58,14 +65,15 @@ class FilterForm {
             
                 buttoncloseselecteList.forEach(button => {
                     button.addEventListener('click', () => {
-                        this.effacerselectrecherche()
-                        this.ParentNode.innerHTML = "" 
+                        this.ParentNode.innerHTML = "";
                         
+                        this.effacerselectrecherche(button)
+                        console.log(this.arrayFilter);
                     });
+                    this.RecuperationParent(button)
+                    
                 });
             }
-            
-
         }
 
         this.itemActiveParent.remove(this.parentElementSelectedItembrother);
@@ -203,26 +211,29 @@ class FilterForm {
         const btnclose = document.querySelectorAll('.buttoncloseselect');
         // Ajout d'un gestionnaire d'événements à chaque bouton de fermeture
         btnclose.forEach(close => {
-            close.addEventListener('click', (e) => {
-                // Récupération du texte de l'élément parent avant la suppression
-                const removedText = close.previousElementSibling.textContent.trim();
-                // Suppression de l'élément de la liste des filtres actifs
-                this.arrayFilter = this.arrayFilter.filter(
-                    (element) => element.toLowerCase() !== removedText.toLowerCase()
-                );
-                // Suppression de l'élément parent de l'élément bouton de fermeture
-                close.parentElement.remove();
-                // Nettoyage du contenu de cartwrapper
-                this.cartwrapper.innerHTML = '';
-                // Réaffichage des recettes filtrées
-                this.Filtrer();
-                // Rendu du total avec les recettes filtrées
-                this.renderTotal(this.recipesFiltered);
-            });
+            this.RecuperationParent(close)
         });
     }
     
-    
+    RecuperationParent(close){
+        close.addEventListener('click', (e) => {
+            console.log('test');
+            // Récupération du texte de l'élément parent avant la suppression
+            const removedText = close.previousElementSibling.textContent.trim();
+            // Suppression de l'élément de la liste des filtres actifs
+            this.arrayFilter = this.arrayFilter.filter(
+                (element) => element.toLowerCase() !== removedText.toLowerCase()
+            );
+            // Suppression de l'élément parent de l'élément bouton de fermeture
+            close.parentElement.remove();
+            // Nettoyage du contenu de cartwrapper
+            this.cartwrapper.innerHTML = '';
+            // Réaffichage des recettes filtrées
+            this.Filtrer();
+            // Rendu du total avec les recettes filtrées
+            this.renderTotal(this.recipesFiltered);
+        });
+    }
     /**
      *Function qui filtre les ingrédients les ustentsils et les appareilles 
      *
@@ -258,8 +269,8 @@ class FilterForm {
             <div class="row">
                 <div class="col">
                     <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
-                        <h2 class=" m-4">Aucune recette ne contient les filtres sélectionnés. Vous pouvez rechercher d'autres recettes.</h2>
-                        <h3 class="m-4">Exemples de recherches : « tarte aux pommes », « poisson », etc.</h3>
+                        <h2 class=" m-4">Aucune recette ne contient les filtres sélectionnés</h2>
+                        <h3 class="m-4">Vous pouvez essayer d'autres filtres</h3>
                         <p class="m-2">Merci.</p>
                     </div>
                 </div>
