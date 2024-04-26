@@ -1,369 +1,393 @@
 class FilterForm {
     constructor(App, RecipesData) {
-        this.App = App;
-        this.RecipesData = RecipesData;
-        this.$wrapper = document.createElement('div');
-        this.Fabrik = new Fabrik()
-        this.$moviesWrapper = document.querySelector('.carterecette');
-        this.searchInput = document.querySelector('#site-search')
-        this.cartwrapper = document.querySelector('.carterecette')
-        this.submit = document.querySelector('.divrecherche button')
-        this.recherche = document.querySelector('.divrecherche input')
-        this.recettesFiltrees = [];
-        this.arrayFilter = [];
-        // this.ProxyRatingSorter = new ProxyRatingSorter()
+        // Initialisation des propriétés de l'instance
+        this.App = App; // Stocke une référence à l'application
+        this.RecipesData = RecipesData; // Stocke les données des recettes
+        this.$wrapper = document.createElement('div'); // Crée un élément div
+        this.Fabrik = new Fabrik(); // Initialise une instance de la classe Fabrik
+        this.$moviesWrapper = document.querySelector('.carterecette'); // Sélectionne l'élément avec la classe 'carterecette'
+        this.searchInput = document.querySelector('#site-search'); // Sélectionne l'élément avec l'ID 'site-search'
+        this.cartwrapper = document.querySelector('.carterecette'); // Sélectionne l'élément avec la classe 'carterecette'
+        this.submit = document.querySelector('.divrecherche button'); // Sélectionne le bouton dans l'élément avec la classe 'divrecherche'
+        this.recherche = document.querySelector('.divrecherche input'); // Sélectionne l'input dans l'élément avec la classe 'divrecherche'
+        this.recettesFiltrees = []; // Initialise un tableau pour stocker les recettes filtrées
+        this.arrayFilter = []; // Initialise un tableau pour stocker les filtres
     }
     /**
-     *Function qui affiche le selecte jaune quand on clicks sur un filtre
-     *
-     * @memberof FilterForm
+     * Fonction qui affiche le selecte jaune quand on clique sur un filtre
      */
     selecteRecherche() {
+        // Sélectionne tous les éléments avec la classe 'dropdown-item'
         const selecteRecherches = document.querySelectorAll('.dropdown-item');
+        // Sélectionne tous les éléments avec la classe 'btn-secondary'
         const a = document.querySelectorAll('.btn-secondary');
-
-        // Supprimer toutes les divs existantes
-
+        // Ajoute un écouteur d'événement à chaque élément avec la classe 'dropdown-item'
         selecteRecherches.forEach(selecteRecherche => {
             selecteRecherche.addEventListener('click', this.handleClick);
         });
+        // Fonction pour gérer les clics sur les boutons
         const handleClick2 = (event) => {
+            // Sélectionne le deuxième dernier élément de la liste des classes de l'élément cliqué
             this.classeClique = event.target.classList[event.target.classList.length - 2];
         };
-
+        // Supprime les écouteurs d'événements des boutons
         a.forEach(bouton => {
             bouton.removeEventListener('click', handleClick2);
         });
-
+        // Ajoute un écouteur d'événement à chaque bouton
         a.forEach(bouton => {
             bouton.addEventListener('click', handleClick2);
         });
     }
-
     handleClick = (event) => {
+        // Récupère le texte de l'élément cliqué
         const selecte = event.target.textContent;
-        this.Fabrik.createSelectRecherche(selecte);
+        // Crée un élément selecte dans l'interface
+        this.Fabrik.createSelectRecherche(selecte, selecte);
+        // Stocke l'élément actif
         this.itemActive = event.target;
+        // Stocke le parent de l'élément actif
         this.itemActiveParent = event.target.parentNode;
-
-        this.arrayFilter.push(selecte)
-        const divfiltre = document.querySelectorAll('.accueilselecterecherche')
-        divfiltre.forEach(element => {
-            const paragraph = element.querySelector('p');
-            console.log(paragraph);
-            console.log( this.arrayFilter);
-            // Faites quelque chose avec le paragraphe sélectionné...
-        });
-        // Vérifier si this.itemActiveParent existe avant d'accéder à previousElementSibling
+        // Ajoute le filtre sélectionné au tableau des filtres
+        this.arrayFilter.push(selecte);
+        // Vérifie si le parent de l'élément actif existe avant d'accéder à previousElementSibling
         if (this.itemActiveParent) {
+            // Stocke l'élément précédent du parent
             this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling;
 
-            // Vérifier si this.ParentNode existe avant de modifier son innerHTML
+            // Vérifie si this.ParentNode existe avant de modifier son innerHTML
             if (this.ParentNode) {
+                // Modifie le HTML de this.ParentNode avec le nouveau filtre sélectionné
                 this.ParentNode.innerHTML = `<li class="parentNode"><a class="dropdown-item selecteListe" href="#">${selecte}</a> <button class="closeselecteButton"> <img class="closeselecte" src="../assets/croix2.svg"> </button> </li>`;
+                // Sélectionne tous les boutons de fermeture des sélecteurs
                 const buttoncloseselecteList = this.ParentNode.querySelectorAll('.closeselecteButton');
-            
+                // Sélectionne tous les divs filtres
+                this.divfiltre = document.querySelectorAll('.accueilselecterecherche');
+                // Sélectionne tous les boutons de fermeture des divs
+                this.btnCloseDiv = document.querySelectorAll('.buttonCloseDiv');
+                // Sélectionne tous les éléments <a> des filtres
+                this.selecteListeA = document.querySelectorAll('.selecteListe');
+                // Ajoute un écouteur d'événement à chaque bouton de fermeture des sélecteurs
                 buttoncloseselecteList.forEach(button => {
                     button.addEventListener('click', () => {
-                        this.ParentNode.innerHTML = "";
-                        
-                        this.effacerselectrecherche(button)
-                        console.log(this.arrayFilter);
+                        button.parentNode.remove();
                     });
-                    this.RecuperationParent(button)
-                    
+                    // Appelle la méthode RecuperationParent
+                    this.RecuperationParent(button);
                 });
             }
         }
-
+        // Efface l'élément actif parent et son frère
         this.itemActiveParent.remove(this.parentElementSelectedItembrother);
-        this.Filtrer()
-        this.selecteBarreDeRecherche()
+        // Filtre les recettes
+        this.Filtrer();
+        // Affiche la barre de recherche des sélecteurs
+        this.selecteBarreDeRecherche();
     };
-
     /**
-     *Function qui affiche dans le selecte les Ingrédients et qui les filtres avec la barre de recherche 
-     *
-     * @memberof FilterForm
+     * Fonction qui affiche dans le selecte les Ingrédients et qui les filtres avec la barre de recherche 
      */
     afficherIngredients() {
-        // Sélection de l'élément HTML où afficher la liste des ingrédients
+        // Sélectionne l'élément HTML où afficher la liste des ingrédients
         this.listeingredient = document.querySelector('.ulingre');
         // Utilisation d'un ensemble pour stocker les ingrédients uniques
         const ingredients = new Set();
-        // Parcours de chaque recette pour récupérer les ingrédients uniques
+        // Parcourt chaque recette pour récupérer les ingrédients uniques
         this.RecipesData.forEach(recipe => {
             recipe.ingredients.forEach(ingredient => {
                 ingredients.add(ingredient.ingredient);
             });
         });
-        // Affichage des ingrédients uniques dans la liste
+        // Affiche les ingrédients uniques dans la liste
         ingredients.forEach(ingredient => {
             this.Fabrik.createListe(ingredient, this.listeingredient);
         });
-        // Ajout d'un écouteur d'événement pour le champ de recherche d'ingrédients
+        // Ajoute un écouteur d'événement pour le champ de recherche d'ingrédients
         document.querySelector('#site-searchIngredient').addEventListener("input", e => {
-            // Récupération du terme de recherche et conversion en minuscules
+            // Récupère le terme de recherche et le convertit en minuscules
             const searchTerm = e.target.value.toLowerCase();
-            // Filtrage des ingrédients en fonction du terme de recherche
+            // Filtre les ingrédients en fonction du terme de recherche
             const filteredIngredients = new Set(Array.from(ingredients).filter(ingredient =>
                 ingredient.toLowerCase().includes(searchTerm)
             ));
-            // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
+            // Efface la liste actuelle avant d'afficher les ingrédients filtrés
             this.listeingredient.innerHTML = '';
-            // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
+            // Affiche les ingrédients filtrés en appelant createListe pour chaque ingrédient
             filteredIngredients.forEach(ingredient => {
                 this.Fabrik.createListe(ingredient, this.listeingredient);
-
             });
+            // Affiche la barre de recherche des sélecteurs
             this.selecteRecherche();
         });
     }
     /**
-     *Function qui affiche dans le selecte les Appareilles et qui les filtres avec la barre de recherche 
-     *
-     * @memberof FilterForm
-     */
+   * Fonction qui affiche dans le selecte les Appareilles et qui les filtres avec la barre de recherche 
+   */
     afficherAppareil() {
+        // Sélectionne l'élément où afficher la liste des appareils
         this.listeappareil = document.querySelector('.ulapp');
-        const Appliance = new Set(); // Utiliser un ensemble pour stocker les appareils uniques
+        // Utilisation d'un ensemble pour stocker les appareils uniques
+        const Appliance = new Set();
+        // Parcourt chaque recette pour récupérer les appareils uniques
         this.RecipesData.forEach(recipe => {
-            Appliance.add(recipe.appliance); // Ajouter l'appareil de chaque recette à l'ensemble
+            Appliance.add(recipe.appliance);
         });
+        // Affiche les appareils uniques dans la liste
         Appliance.forEach(appar => {
             this.Fabrik.createListe(appar, this.listeappareil);
         });
+        // Ajoute un écouteur d'événement pour le champ de recherche d'appareils
         const searchInput = document.querySelector('#site-searchApp');
         searchInput.addEventListener("input", e => {
-            // console.log(document.querySelector('accueilselecterecherche'));
-            // Récupération du terme de recherche et conversion en minuscules
+            // Récupère le terme de recherche et le convertit en minuscules
             const searchTerm = e.target.value.toLowerCase();
-            // Filtrage des ingrédients en fonction du terme de recherche
+            // Filtre les appareils en fonction du terme de recherche
             const filteredAppliance = new Set(Array.from(Appliance).filter(appar =>
                 appar.toLowerCase().includes(searchTerm)
-            ))
-
-            // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
+            ));
+            // Efface la liste actuelle avant d'afficher les appareils filtrés
             this.listeappareil.innerHTML = '';
-            // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
+            // Affiche les appareils filtrés en appelant createListe pour chaque appareil
             filteredAppliance.forEach(appar => {
                 this.Fabrik.createListe(appar, this.listeappareil);
-
             });
+            // Affiche la barre de recherche des sélecteurs
             this.selecteRecherche();
         });
     }
     /**
-     *Function qui affiche dans le selecte les ustensils et qui les filtres avec la barre de recherche 
-     *
-     * @memberof FilterForm
+     * Fonction qui affiche dans le selecte les ustensils et qui les filtre avec la barre de recherche 
      */
     afficherUstensil() {
+        // Sélectionne l'élément où afficher la liste des ustensiles
         this.listeustensil = document.querySelector('.ulus');
-        const Ustensil = new Set(); // Utiliser un ensemble pour stocker les ustensiles uniques
+        // Utilisation d'un ensemble pour stocker les ustensiles uniques
+        const Ustensil = new Set();
+        // Parcourt chaque recette pour récupérer les ustensiles uniques
         this.RecipesData.forEach(recipe => {
-            recipe.ustensils.forEach(ustensil => { // Utiliser ustensil au lieu de recipe.ustensils
-                const name = ustensil.toLowerCase(); // Nettoyer l'ustensile en le mettant en minuscules
+            recipe.ustensils.forEach(ustensil => {
+                const name = ustensil.toLowerCase();
                 Ustensil.add(name);
             });
         });
+        // Affiche les ustensiles uniques dans la liste
         Ustensil.forEach(ustensil => {
             this.Fabrik.createListe(ustensil, this.listeustensil);
         });
+        // Ajoute un écouteur d'événement pour le champ de recherche d'ustensiles
         const searchInput = document.querySelector('#site-searchustensil');
         searchInput.addEventListener("input", e => {
-            // Récupération du terme de recherche et conversion en minuscules
+            // Récupère le terme de recherche et le convertit en minuscules
             const searchTerm = e.target.value.toLowerCase();
-            // Filtrage des ingrédients en fonction du terme de recherche
+            // Filtre les ustensiles en fonction du terme de recherche
             const filteredUstensil = new Set(Array.from(Ustensil).filter(ustensil =>
                 ustensil.toLowerCase().includes(searchTerm)
             ));
-            // Effacement de la liste actuelle avant d'afficher les ingrédients filtrés
+            // Efface la liste actuelle avant d'afficher les ustensiles filtrés
             this.listeustensil.innerHTML = '';
-            // Afficher les ingrédients filtrés en appelant createListe pour chaque ingrédient
+            // Affiche les ustensiles filtrés en appelant createListe pour chaque ustensile
             filteredUstensil.forEach(ustensil => {
                 this.Fabrik.createListe(ustensil, this.listeustensil);
-
             });
+            // Affiche la barre de recherche des sélecteurs
             this.selecteRecherche();
         });
     }
     /**
-     *
-     *Function qui permet de calculer le total de recette 
+     * Fonction qui permet de calculer le total de recette 
      * @param {*} array
      * @return {*} 
-     * @memberof FilterForm
      */
     renderTotal(array) {
+        // Sélectionne l'élément pour afficher le total de recettes
         this.totalRecipes = document.querySelector(".totalrecette");
-        let total = array.length; // Mettre à jour le total en utilisant le tableau passé en argument
-        this.totalRecipes.textContent = total + ' recettes'; // Ajouter le total en tant que texte
-        return total; // Renvoyer le total mis à jour si nécessaire
+        // Calcule le nombre total de recettes dans le tableau passé en argument
+        let total = array.length;
+        // Affiche le total de recettes
+        this.totalRecipes.textContent = total + ' recettes';
+        // Renvoie le total
+        return total;
     }
     /**
-     *Function qui permet d'effacer le selecteur de recherche 
-     *
-     * @memberof FilterForm
+     * Fonction qui permet d'effacer le selecteur de recherche 
      */
-     effacerselectrecherche() {
-        // Sélection de tous les boutons de fermeture
-        const btnclose = document.querySelectorAll('.buttoncloseselect');
-        // Ajout d'un gestionnaire d'événements à chaque bouton de fermeture
-        btnclose.forEach(close => {
-            this.RecuperationParent(close)
-        });
-    }
-    
-    RecuperationParent(close){
+    RecuperationParent(close) {
+        // Ajoute un écouteur d'événement pour chaque bouton de fermeture
         close.addEventListener('click', (e) => {
-            console.log('test');
-            // Récupération du texte de l'élément parent avant la suppression
+            // Récupère le texte de l'élément précédent à supprimer
+            const paragraphText = close.previousElementSibling.textContent;
+            // Trouve le paragraphe à supprimer en utilisant son ID
+            const paragraphToRemove = document.getElementById(paragraphText);
+            // Vérifie si le paragraphe a été trouvé et le supprime si nécessaire
+            if (paragraphToRemove) {
+                // Supprime le paragraphe
+                paragraphToRemove.remove();
+            }
+            // Supprime l'élément de la liste des filtres actifs
             const removedText = close.previousElementSibling.textContent.trim();
-            // Suppression de l'élément de la liste des filtres actifs
             this.arrayFilter = this.arrayFilter.filter(
                 (element) => element.toLowerCase() !== removedText.toLowerCase()
             );
-            // Suppression de l'élément parent de l'élément bouton de fermeture
-            close.parentElement.remove();
-            // Nettoyage du contenu de cartwrapper
+            // Nettoie le contenu de cartwrapper
             this.cartwrapper.innerHTML = '';
-            // Réaffichage des recettes filtrées
+            // Réaffiche les recettes filtrées
             this.Filtrer();
             // Rendu du total avec les recettes filtrées
             this.renderTotal(this.recipesFiltered);
         });
     }
     /**
-     *Function qui filtre les ingrédients les ustentsils et les appareilles 
-     *
-     * @memberof FilterForm
+     * Fonction qui efface les filtres et les sélecteurs de recherche
      */
-    // Définition de la méthode Filtrer()
+    effacerFIltre(btns, liste) {
+        // Ajoute un gestionnaire d'événements à chaque bouton de fermeture des divs
+        btns.forEach(btn => {
+            // Appelle la méthode RecuperationParent
+            this.RecuperationParent(btn);
+            btn.addEventListener('click', () => {
+                this.parentText = btn.parentElement.textContent.trim(); // Texte du parent du bouton de fermeture
+                // Compare le texte de chaque élément <a> avec le texte du parent du bouton de fermeture
+                liste.forEach(a => {
+                    if (a.textContent.trim() === this.parentText) {
+                        a.parentElement.remove(); // Supprime l'élément <li> contenant l'élément <a> correspondant
+                    }
+                });
+            });
+        });
+    }
+    /**
+     * Fonction qui filtre les recettes en fonction des critères sélectionnés
+     */
     Filtrer() {
-        this.effacerselectrecherche();
+        // Efface les filtres actifs et les sélecteurs de recherche
+        this.effacerFIltre(this.btnCloseDiv, this.selecteListeA, null);
         // Filtrage des recettes en fonction des critères sélectionnés
         const nouvellesRecettesFiltrees = this.RecipesData.filter((recipe) => {
-            // Vérification si chaque filtre correspond à au moins un critère de la recette avec la méthode every
+            // Vérifie si chaque filtre correspond à au moins un critère de la recette avec la méthode every
             const match = this.arrayFilter.every((filter) =>
-                // Vérification si le filtre correspond à un ingrédient de la recette
+                // Vérifie si le filtre correspond à un ingrédient de la recette
                 recipe.ingredients.some((ingredient) =>
                     ingredient.ingredient.toLowerCase().includes(filter.toLowerCase())
                 ) ||
-                // Vérification si le filtre correspond à un ustensile de la recette
+                // Vérifie si le filtre correspond à un ustensile de la recette
                 recipe.ustensils.some((ustensil) =>
                     ustensil.toLowerCase().includes(filter.toLowerCase())
                 ) ||
-                // Vérification si le filtre correspond à l'appareil de cuisson de la recette
+                // Vérifie si le filtre correspond à l'appareil de cuisson de la recette
                 recipe.appliance.toLowerCase().includes(filter.toLowerCase())
             );
             // Retourne vrai si la recette correspond à tous les filtres
             return match;
         });
-
         // Si aucune recette ne correspond aux filtres sélectionnés
         if (nouvellesRecettesFiltrees.length === 0) {
-            this.renderTotal(nouvellesRecettesFiltrees);
-            // Affichage d'un message indiquant qu'aucune recette ne correspond aux filtres
+            // Affiche un message indiquant qu'aucune recette ne correspond aux filtres
             this.cartwrapper.innerHTML = `<div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
-                        <h2 class=" m-4">Aucune recette ne contient les filtres sélectionnés</h2>
-                        <h3 class="m-4">Vous pouvez essayer d'autres filtres</h3>
-                        <p class="m-2">Merci.</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
+                            <h2 class=" m-4">Aucune recette ne contient les filtres sélectionnés</h2>
+                            <h3 class="m-4">Vous pouvez essayer d'autres filtres</h3>
+                            <p class="m-2">Merci.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`;
-
-            // Réinitialisation de la liste des recettes filtrées
+            </div>`;
+            // Réinitialise la liste des recettes filtrées
             this.recipesFiltered = [];
         } else {
-            // Si des recettes correspondent aux filtres, les enregistrer dans la liste des recettes filtrées
+            // Si des recettes correspondent aux filtres, les enregistre dans la liste des recettes filtrées
             this.recipesFiltered = nouvellesRecettesFiltrees;
-            // Effacement du contenu précédent de la zone d'affichage des recettes
+            // Efface le contenu précédent de la zone d'affichage des recettes
             this.cartwrapper.innerHTML = '';
-
-            // Affichage des cartes des recettes filtrées
-            app.afficherRecette(this.recipesFiltered)
-            // Affichage du total des recettes filtrées
+            // Affiche les cartes des recettes filtrées
+            app.afficherRecette(this.recipesFiltered);
+            // Affiche le total des recettes filtrées
             this.renderTotal(this.recipesFiltered);
-            // Effacement de la sélection de recherche
-
         }
-
     }
-
-
     /**
-    * Compare l'input utilisateur au dela de 3 characteres entrées et affiche un message d 'erreur si aucune terme n 'est trouvé.
-    *
-    * @memberof FilterForm
+    * Fonction qui efface les sélecteurs de recherche et réaffiche toutes les recettes
     */
+    effacerselectrecherche() {
+        // Sélectionne tous les boutons de fermeture
+        const btnclose = document.querySelectorAll('.buttonCloseDiv');
+        // Ajoute un gestionnaire d'événements à chaque bouton de fermeture
+        btnclose.forEach(close => {
+            close.addEventListener('click', (e) => {
+                // Supprime l'élément parent de l'élément bouton de fermeture
+                close.parentElement.remove();
+                // Nettoie le contenu de cartwrapper
+                this.cartwrapper.innerHTML = '';
+                // Réaffiche toutes les recettes
+                app.afficherRecette(this.RecipesData);
+                // Rendu du total avec toutes les recettes
+                this.renderTotal(this.RecipesData);
+            });
+        });
+    }
+    /**
+     * Compare l'input utilisateur au dela de 3 caractères entrées et affiche un message d'erreur si aucun terme n'est trouvé.
+     */
     compareInputResult() {
+        // Ajoute un écouteur d'événement pour le champ de recherche
         this.searchInput.addEventListener("keyup", (e) => {
+            // Récupère le terme de recherche et le nettoie
             const query = this.searchInput.value.trim().toLowerCase();
             if (query.length >= 3) {
                 // Filtrer les recettes en fonction de la recherche
                 const filteredRecipes = this.RecipesData.filter((recipe) => {
-                    // Vérifier si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
+                    // Vérifie si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
                     return this.compareJSON(recipe, query);
                 });
-                // Afficher les nouvelles recettes filtrées
+                // Affiche les nouvelles recettes filtrées ou un message d'erreur si aucune recette n'est trouvée
                 if (filteredRecipes.length === 0) {
                     this.renderTotal(filteredRecipes);
                     this.cartwrapper.innerHTML = `<div class="container">
-            <div class="row">
-              <div class="col">
-                <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
-                  <h2 class=" m-4">Aucune recette ne contient '${query}' vous pouvez chercher</h2>
-                  <h3 class="m-4">«tarte aux pommes », « poisson », etc.<br>
-                  <p class="m-2">Merci.</p>
-                </div>
-              </div>
-            </div>
-          </div>`;
+                        <div class="row">
+                            <div class="col">
+                                <div class="mx-auto text-center style="font-family: 'Roboto', sans-serif;"">
+                                    <h2 class=" m-4">Aucune recette ne contient '${query}' vous pouvez chercher</h2>
+                                    <h3 class="m-4">«tarte aux pommes », « poisson », etc.<br>
+                                    <p class="m-2">Merci.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
                 } else {
-                    // Afficher les nouvelles recettes filtrées
+                    // Affiche les nouvelles recettes filtrées
                     this.cartwrapper.innerHTML = '';
-                    app.afficherRecette(filteredRecipes)
+                    app.afficherRecette(filteredRecipes);
                     this.renderTotal(filteredRecipes);
                 }
             } else if (query.length === 0) {
+                // Si la recherche est vide, affiche toutes les recettes
                 this.cartwrapper.innerHTML = '';
-                app.afficherRecette(this.RecipesData)
+                app.afficherRecette(this.RecipesData);
                 this.renderTotal(this.RecipesData);
             }
         });
     }
-
     /**
-     * Compare la recherche utilisateur au titre , description, et ingredients
-     *
-     * @param {Array<Object} recipe-l'objet de recherche
-     * @param {*} query-recherche de l 'utilisateur 
-     * @memberof FilterForm
+     * Compare la recherche utilisateur au titre, à la description et aux ingrédients de la recette
      */
     compareJSON(recipe, query) {
-        // Vérifier si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
+        // Vérifie si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
         const matchName = recipe.name.toLowerCase().includes(query);
         const matchDescription = recipe.description.toLowerCase().includes(query);
         const matchIngredients = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(query));
         return matchName || matchDescription || matchIngredients;
     }
     /**
-     *Function qui permet de d'afficher au submit la recherche effectuer avec le select 
-     *
-     * @memberof FilterForm
+     * Fonction qui permet d'afficher au submit la recherche effectuée avec le selecteur
      */
     selecteBarreDeRecherche() {
+        // Ajoute un écouteur d'événement au bouton de soumission
         this.submit.addEventListener('click', () => {
-            this.Fabrik.createSelectRecherche(this.recherche.value)
-            this.effacerselectrecherche()
-        })
-
+            // Crée un selecteur pour la recherche
+            this.Fabrik.createSelectRecherche(this.recherche.value);
+            // Efface les sélecteurs de recherche
+            this.effacerselectrecherche();
+        });
     }
 }
-
-

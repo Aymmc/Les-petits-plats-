@@ -112,14 +112,15 @@ class Fabrik {
      * @param {*} recherche
      * @memberof Fabrik
      */
-    createSelectRecherche(recherche){
+    createSelectRecherche(recherche , id){
         const div = document.createElement('div');
         const p = document.createElement('p')
         const button = document.createElement('button')
         const img = document.createElement('img')
         div.classList.add('d-flex', 'align-items-center', 'selectrecherche')
         p.classList.add("recherche")
-        button.classList.add('buttoncloseselect')
+        div.setAttribute("id", id);
+        button.classList.add('buttonCloseDiv')
         img.src="../assets/croix.svg"
         p.textContent = recherche
         button.appendChild(img)
