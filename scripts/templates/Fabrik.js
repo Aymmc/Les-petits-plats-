@@ -4,8 +4,15 @@ class Fabrik {
         this.Main = document.querySelector('main');
         this.$recipeswrapper = document.querySelector('.filtrerecipes');
         this.cartwrapper = document.querySelector('.carterecette')
+        this.selectrecherche = document.querySelector('.accueilselecterecherche')
 
     }
+    /**
+     *Function qui crée le total 
+     *
+     * @param {*} Resultat
+     * @memberof Fabrik
+     */
     createTotal(Resultat) {
         const divtotal = document.createElement('div')
         const total = document.createElement('p')
@@ -15,6 +22,16 @@ class Fabrik {
         divtotal.appendChild(total)
         this.$recipeswrapper.appendChild(divtotal)
     }
+    /**
+     *Function qui permet de créer les cartes via le fichier json 
+     *
+     * @param {*} Titre Titre des recettes 
+     * @param {*} Paragraphe Descriptifs de des recettes 
+     * @param {*} [Ingredients=[]] Tableau des ingrédients dans les recettes 
+     * @param {*} Src Source de l'image 
+     * @param {*} Time Le temps que prends les recettes 
+     * @memberof Fabrik
+     */
     createCarte(Titre, Paragraphe, Ingredients = [], Src, Time) {
         const img = document.createElement('img')
         const divcarte = document.createElement('article');
@@ -72,5 +89,45 @@ class Fabrik {
         divcol.appendChild(divcarte)
         this.cartwrapper.appendChild(divcol);
     }
+    /**
+     *Function qui permet de créer les listes des filtres 
+     *
+     * @param {*} list
+     * @param {*} parentElement 
+     * @memberof Fabrik
+     */
+    createListe(list, parentElement) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.classList.add('dropdown-item');
+        a.href = "#";
+        a.textContent = list;
+        
+        li.appendChild(a);
+        parentElement.appendChild(li);
+    }
+    /**
+     *Funtion qui permet de créer le resultas d'un filtre (jaune)
+     *
+     * @param {*} recherche
+     * @memberof Fabrik
+     */
+    createSelectRecherche(recherche , id){
+        const div = document.createElement('div');
+        const p = document.createElement('p')
+        const button = document.createElement('button')
+        const img = document.createElement('img')
+        div.classList.add('d-flex', 'align-items-center', 'selectrecherche')
+        p.classList.add("recherche")
+        div.setAttribute("id", id);
+        button.classList.add('buttonCloseDiv')
+        img.src="../assets/croix.svg"
+        p.textContent = recherche
+        button.appendChild(img)
+        div.appendChild(p)
+        div.appendChild(button)
+        this.selectrecherche.appendChild(div)
+        // const buttoncloseselect = document.querySelectorAll('.buttoncloseselect'); // Sélection du premier élément correspondant
 
+    }
 }
