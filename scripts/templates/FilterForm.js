@@ -73,7 +73,7 @@ class FilterForm {
                         button.parentNode.remove();
                     });
                     // Appelle la méthode RecuperationParent
-                    this.RecuperationParent(button);
+                    this.effacerFiltreSelect(button);
                 });
             }
         }
@@ -195,7 +195,7 @@ class FilterForm {
     }
     /**
      * Fonction qui permet de calculer le total de recette 
-     * @param {*} array
+     * @param {*} array qui est tableau a calculer le nombres de recettes
      * @return {*} 
      */
     renderTotal(array) {
@@ -210,8 +210,9 @@ class FilterForm {
     }
     /**
      * Fonction qui permet d'effacer le selecteur de recherche 
+     * @param {*} close qui est button 
      */
-    RecuperationParent(close) {
+    effacerFiltreSelect(close) {
         // Ajoute un écouteur d'événement pour chaque bouton de fermeture
         close.addEventListener('click', (e) => {
             // Récupère le texte de l'élément précédent à supprimer
@@ -239,11 +240,11 @@ class FilterForm {
     /**
      * Fonction qui efface les filtres et les sélecteurs de recherche
      */
-    effacerFIltre(btns, liste) {
+    effacerFiltreDiv(btns, liste) {
         // Ajoute un gestionnaire d'événements à chaque bouton de fermeture des divs
         btns.forEach(btn => {
             // Appelle la méthode RecuperationParent
-            this.RecuperationParent(btn);
+            this.effacerFiltreSelect(btn);
             btn.addEventListener('click', () => {
                 this.parentText = btn.parentElement.textContent.trim(); // Texte du parent du bouton de fermeture
                 // Compare le texte de chaque élément <a> avec le texte du parent du bouton de fermeture
@@ -260,7 +261,7 @@ class FilterForm {
      */
     Filtrer() {
         // Efface les filtres actifs et les sélecteurs de recherche
-        this.effacerFIltre(this.btnCloseDiv, this.selecteListeA, null);
+        this.effacerFiltreDiv(this.btnCloseDiv, this.selecteListeA, null);
         // Filtrage des recettes en fonction des critères sélectionnés
         const nouvellesRecettesFiltrees = this.RecipesData.filter((recipe) => {
             // Vérifie si chaque filtre correspond à au moins un critère de la recette avec la méthode every
@@ -295,6 +296,7 @@ class FilterForm {
             </div>`;
             // Réinitialise la liste des recettes filtrées
             this.recipesFiltered = [];
+            this.renderTotal(this.recipesFiltered)
         } else {
             // Si des recettes correspondent aux filtres, les enregistre dans la liste des recettes filtrées
             this.recipesFiltered = nouvellesRecettesFiltrees;
