@@ -3,9 +3,7 @@ class FilterForm {
         // Initialisation des propriétés de l'instance
         this.App = App; // Stocke une référence à l'application
         this.RecipesData = RecipesData; // Stocke les données des recettes
-        this.$wrapper = document.createElement('div'); // Crée un élément div
         this.Fabrik = new Fabrik(); // Initialise une instance de la classe Fabrik
-        this.$moviesWrapper = document.querySelector('.carterecette'); // Sélectionne l'élément avec la classe 'carterecette'
         this.searchInput = document.querySelector('#site-search'); // Sélectionne l'élément avec l'ID 'site-search'
         this.cartwrapper = document.querySelector('.carterecette'); // Sélectionne l'élément avec la classe 'carterecette'
         this.submit = document.querySelector('.divrecherche button'); // Sélectionne le bouton dans l'élément avec la classe 'divrecherche'
@@ -39,6 +37,9 @@ class FilterForm {
             bouton.addEventListener('click', handleClick2);
         });
     }
+    /**
+     * Fonction qui permet de gerer l'affichage du filtre en premier au click 
+     */
     handleClick = (event) => {
         // Récupère le texte de l'élément cliqué
         const selecte = event.target.textContent;
@@ -82,7 +83,7 @@ class FilterForm {
         // Filtre les recettes
         this.Filtrer();
         // Affiche la barre de recherche des sélecteurs
-        this.selecteBarreDeRecherche();
+        
     };
     /**
      * Fonction qui affiche dans le selecte les Ingrédients et qui les filtres avec la barre de recherche 
@@ -121,7 +122,7 @@ class FilterForm {
         });
     }
     /**
-   * Fonction qui affiche dans le selecte les Appareilles et qui les filtres avec la barre de recherche 
+    * Fonction qui affiche dans le selecte les Appareilles et qui les filtres avec la barre de recherche 
    */
     afficherAppareil() {
         // Sélectionne l'élément où afficher la liste des appareils
@@ -196,7 +197,7 @@ class FilterForm {
     /**
      * Fonction qui permet de calculer le total de recette 
      * @param {*} array qui est tableau a calculer le nombres de recettes
-     * @return {*} 
+     * @return {*} total 
      */
     renderTotal(array) {
         // Sélectionne l'élément pour afficher le total de recettes
@@ -344,6 +345,7 @@ class FilterForm {
             if (query.length >= 3) {
                 // Filtrer les recettes en fonction de la recherche
                 const filteredRecipes = this.RecipesData.filter((recipe) => {
+                 
                     // Vérifie si le terme de recherche est présent dans le nom, la description ou les ingrédients de la recette
                     return this.compareJSON(recipe, query);
                 });
@@ -366,6 +368,7 @@ class FilterForm {
                     this.cartwrapper.innerHTML = '';
                     app.afficherRecette(filteredRecipes);
                     this.renderTotal(filteredRecipes);
+                    
                 }
             } else if (query.length === 0) {
                 // Si la recherche est vide, affiche toutes les recettes
