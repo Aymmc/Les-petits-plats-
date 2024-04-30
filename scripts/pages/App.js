@@ -50,8 +50,6 @@ class App {
     }
     async main() {
         await this.fetchRecipes();
-        this.SorterForm = new SorterForm(app, this.RecipesData); // Instanciation du formulaire de tri
-        this.SorterForm.render(); // Affichage du formulaire de tri 
         this.afficherRecette();
         this.afficherresultat()
         this.flechechangement()
