@@ -203,8 +203,13 @@ class FilterForm {
         this.totalRecipes = document.querySelector(".totalrecette");
         // Calcule le nombre total de recettes dans le tableau passé en argument
         let total = array.length;
+        if(array.length <= 1 ){
+            this.totalRecipes.textContent = total + ' recette';
+        }else{
+            this.totalRecipes.textContent = total + ' recettes';
+        }
         // Affiche le total de recettes
-        this.totalRecipes.textContent = total + ' recettes';
+        
         // Renvoie le total
         return total;
     }
