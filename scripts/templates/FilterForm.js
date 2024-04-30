@@ -87,7 +87,7 @@ class FilterForm {
         // Filtre les recettes
         this.Filtrer();
         // Affiche la barre de recherche des sélecteurs
-        this.selecteBarreDeRecherche();
+        
     };
     afficherIngredients() {
         // Sélectionne l'élément HTML où afficher la liste des ingrédients
