@@ -245,7 +245,12 @@ class FilterForm {
             // Calcule le nombre total de recettes dans le tableau passé en argument
             let total = array.length;
             // Affiche le total de recettes
-            this.totalRecipes.textContent = total + ' recettes';
+            if(array.length <= 1 ){
+                this.totalRecipes.textContent = total + ' recette';
+            } else {
+                this.totalRecipes.textContent = total + ' recettes';
+            }
+            
             // Renvoie le total
             return total;
         }
@@ -349,6 +354,7 @@ class FilterForm {
         }
 
         if (nouvellesRecettesFiltrees.length === 0) {
+            this.renderTotal(nouvellesRecettesFiltrees);
             // Affiche un message indiquant qu'aucune recette ne correspond aux filtres
             this.cartwrapper.innerHTML = `<div class="container">
             <div class="row">
