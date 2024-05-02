@@ -107,7 +107,7 @@ header {
     text-align: center;
 }
 .barrederecherche {
-    width: 954px;
+    width: 68%;
     height: 72px;
 
 }
@@ -122,7 +122,7 @@ header {
 .divrecherche button {
     position: absolute;
     top: 10px;
-    left: 1120px;
+    left: 76%;
     width: 51px;
     height: 52px;
     border: none;
@@ -359,7 +359,7 @@ border-color: #C6C6C6!important;
 .barrederecherche::-webkit-search-cancel-button {
     -webkit-appearance: none;
     position: absolute;
-    left: 850px;
+    right: 2%;
     height: 12px;
     width: 12px;
     background: url("data:image/svg+xml;charset=UTF-8,%3csvg viewBox='0 0 6 6' version='1.1' xmlns='http://www.w3.org/2000/svg'%3e%3cline x1='0.5' y1='5.5' x2='5.5' y2='0.5' stroke='grey' stroke-width='0.5'/%3e%3cline x1='0.5' y1='0.5' x2='5.5' y2='5.5' stroke='grey' stroke-width='0.5'/%3e%3c/svg%3e");
