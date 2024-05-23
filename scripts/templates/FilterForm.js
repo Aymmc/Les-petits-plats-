@@ -13,31 +13,26 @@ class FilterForm {
         this.recettesFiltrees = []; // Initialise un tableau pour stocker les recettes filtrées
         this.arrayFilter = []; // Initialise un tableau pour stocker les filtres
     }
-
     selecteRecherche() {
         // Sélectionne tous les éléments avec la classe 'dropdown-item'
         const selecteRecherches = document.querySelectorAll('.dropdown-item');
         // Sélectionne tous les éléments avec la classe 'btn-secondary'
         const a = document.querySelectorAll('.btn-secondary');
-
         // Ajoute un écouteur d'événement à chaque élément avec la classe 'dropdown-item'
         for (let i = 0; i < selecteRecherches.length; i++) {
             const selecteRecherche = selecteRecherches[i];
             selecteRecherche.addEventListener('click', this.handleClick);
         }
-
         // Fonction pour gérer les clics sur les boutons
         const handleClick2 = (event) => {
             // Sélectionne le deuxième dernier élément de la liste des classes de l'élément cliqué
             this.classeClique = event.target.classList[event.target.classList.length - 2];
         };
-
         // Supprime les écouteurs d'événements des boutons
         for (let i = 0; i < a.length; i++) {
             const bouton = a[i];
             bouton.removeEventListener('click', handleClick2);
         }
-
         // Ajoute un écouteur d'événement à chaque bouton
         for (let i = 0; i < a.length; i++) {
             const bouton = a[i];
@@ -59,7 +54,6 @@ class FilterForm {
         if (this.itemActiveParent) {
             // Stocke l'élément précédent du parent
             this.ParentNode = this.itemActiveParent.parentNode.previousElementSibling;
-
             // Vérifie si this.ParentNode existe avant de modifier son innerHTML
             if (this.ParentNode) {
                 // Modifie le HTML de this.ParentNode avec le nouveau filtre sélectionné
@@ -87,14 +81,12 @@ class FilterForm {
         // Filtre les recettes
         this.Filtrer();
         // Affiche la barre de recherche des sélecteurs
-        
     };
     afficherIngredients() {
         // Sélectionne l'élément HTML où afficher la liste des ingrédients
         this.listeingredient = document.querySelector('.ulingre');
         // Utilisation d'un ensemble pour stocker les ingrédients uniques
         const ingredients = new Set();
-
         // Boucle for pour parcourir chaque recette et récupérer les ingrédients uniques
         for (let i = 0; i < this.RecipesData.length; i++) {
             const recipe = this.RecipesData[i];
@@ -105,21 +97,18 @@ class FilterForm {
                 ingredients.add(ingredient);
             }
         }
-
         // Affiche les ingrédients uniques dans la liste
         const ingredientArray = Array.from(ingredients);
         for (let i = 0; i < ingredientArray.length; i++) {
             const ingredient = ingredientArray[i];
             this.Fabrik.createListe(ingredient, this.listeingredient);
         }
-
         // Ajoute un écouteur d'événement pour le champ de recherche d'ingrédients
         document.querySelector('#site-searchIngredient').addEventListener("input", (e) => {
             // Récupère le terme de recherche et le convertit en minuscules
             const searchTerm = e.target.value.toLowerCase();
             // Crée un ensemble pour stocker les ingrédients filtrés
             const filteredIngredients = new Set();
-
             // Parcourt tous les ingrédients
             for (let ingredient of ingredients) {
                 // Vérifie si l'ingrédient correspond au terme de recherche
@@ -127,15 +116,12 @@ class FilterForm {
                     filteredIngredients.add(ingredient);
                 }
             }
-
             // Efface la liste actuelle avant d'afficher les ingrédients filtrés
             this.listeingredient.innerHTML = '';
-
             // Affiche les ingrédients filtrés en appelant createListe pour chaque ingrédient
             for (let filteredIngredient of filteredIngredients) {
                 this.Fabrik.createListe(filteredIngredient, this.listeingredient);
             }
-
             // Affiche la barre de recherche des sélecteurs
             this.selecteRecherche();
         });
@@ -156,14 +142,12 @@ class FilterForm {
                 Ustensil.add(ustensil);
             }
         }
-
         // Affiche les ustensiles uniques dans la liste
         const ustensilArray = Array.from(Ustensil);
         for (let i = 0; i < ustensilArray.length; i++) {
             const ustensil = ustensilArray[i];
             this.Fabrik.createListe(ustensil, this.listeustensil);
         }
-
         // Ajoute un écouteur d'événement pour le champ de recherche d'ustensiles
         const searchInput = document.querySelector('#site-searchustensil');
         searchInput.addEventListener("input", (e) => {
@@ -179,15 +163,12 @@ class FilterForm {
                     filteredUstensil.add(ustensil);
                 }
             }
-
             // Efface la liste actuelle avant d'afficher les ustensiles filtrés
             this.listeustensil.innerHTML = '';
-
             // Affiche les ustensiles filtrés en appelant createListe pour chaque ustensile
             for (let filtered of filteredUstensil) {
                 this.Fabrik.createListe(filtered, this.listeustensil);
             }
-
             // Affiche la barre de recherche des sélecteurs
             this.selecteRecherche();
         });
@@ -203,14 +184,12 @@ class FilterForm {
             const recipe = this.RecipesData[i];
             Appliance.add(recipe.appliance);
         }
-
         // Affiche les appareils uniques dans la liste
         const applianceArray = Array.from(Appliance);
         for (let i = 0; i < applianceArray.length; i++) {
             const appar = applianceArray[i];
             this.Fabrik.createListe(appar, this.listeappareil);
         }
-
         // Ajoute un écouteur d'événement pour le champ de recherche d'appareils
         const searchInput = document.querySelector('#site-searchApp');
         searchInput.addEventListener("input", (e) => {
@@ -226,7 +205,6 @@ class FilterForm {
                     filteredAppliance.add(appar);
                 }
             }
-
             // Efface la liste actuelle avant d'afficher les appareils filtrés
             this.listeappareil.innerHTML = '';
 
@@ -305,22 +283,17 @@ class FilterForm {
             });
         }
     }
-
     Filtrer() {
         // Efface les filtres actifs et les sélecteurs de recherche
         this.effacerFIltre(this.btnCloseDiv, this.selecteListeA, null);
-
         const nouvellesRecettesFiltrees = [];
-
         // Parcours des recettes
         for (let i = 0; i < this.RecipesData.length; i++) {
             const recipe = this.RecipesData[i];
             let match = true;
-
             // Vérification de chaque filtre
             for (let j = 0; j < this.arrayFilter.length; j++) {
                 const filter = this.arrayFilter[j].toLowerCase();
-
                 // Vérification de chaque critère de la recette
                 let ingredientMatch = false;
                 for (let k = 0; k < recipe.ingredients.length; k++) {
@@ -329,7 +302,6 @@ class FilterForm {
                         break;
                     }
                 }
-
                 let ustensilMatch = false;
                 for (let k = 0; k < recipe.ustensils.length; k++) {
                     if (recipe.ustensils[k].toLowerCase().includes(filter)) {
@@ -337,22 +309,18 @@ class FilterForm {
                         break;
                     }
                 }
-
                 const applianceMatch = recipe.appliance.toLowerCase().includes(filter);
-
                 // Si aucun critère de la recette ne correspond au filtre
                 if (!ingredientMatch && !ustensilMatch && !applianceMatch) {
                     match = false;
                     break;
                 }
             }
-
             // Si la recette correspond à tous les filtres, l'ajouter aux recettes filtrées
             if (match) {
                 nouvellesRecettesFiltrees.push(recipe);
             }
         }
-
         if (nouvellesRecettesFiltrees.length === 0) {
             this.renderTotal(nouvellesRecettesFiltrees);
             // Affiche un message indiquant qu'aucune recette ne correspond aux filtres
@@ -398,8 +366,6 @@ class FilterForm {
             }.bind(this));
         }
     }
-    
-
     /**
      * Compare l'input utilisateur au dela de 3 caractères entrées et affiche un message d'erreur si aucun terme n'est trouvé.
      */
