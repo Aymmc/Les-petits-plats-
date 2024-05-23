@@ -12,11 +12,7 @@ class App {
      */
     async fetchRecipes() {
         this.RecipesData = await this.RecipesApi.get();
-        // console.log('Nombre de recettes:', this.RecipesData.length);
-        // console.log('Données des recettes:', this.RecipesData); // Afficher les données récupérées dans la console
-        
         return this.RecipesData;
-
     }
 
     /**
