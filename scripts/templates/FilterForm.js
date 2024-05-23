@@ -72,7 +72,7 @@ class FilterForm {
                         button.parentNode.remove();
                     });
                     // Appelle la méthode RecuperationParent
-                    this.RecuperationParent(button);
+                    this.effacerFiltreSelect(button);
                 });
             }
         }
@@ -232,7 +232,7 @@ class FilterForm {
             // Renvoie le total
             return total;
         }
-    RecuperationParent(close) {
+    effacerFiltreSelect(close) {
         // Ajoute un écouteur d'événement pour chaque bouton de fermeture
         close.addEventListener('click', function (e) {
             // Récupère le texte de l'élément précédent à supprimer
@@ -270,7 +270,7 @@ class FilterForm {
         for (let i = 0; i < btns.length; i++) {
             const btn = btns[i];
             // Appelle la méthode RecuperationParent
-            this.RecuperationParent(btn);
+            this.effacerFiltreSelect(btn);
             btn.addEventListener('click', () => {
                 this.parentText = btn.parentElement.textContent.trim(); // Texte du parent du bouton de fermeture
                 // Compare le texte de chaque élément <a> avec le texte du parent du bouton de fermeture
