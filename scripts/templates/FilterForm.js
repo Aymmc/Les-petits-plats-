@@ -266,7 +266,7 @@ class FilterForm {
             this.renderTotal(this.recipesFiltered);
         }.bind(this));
     }
-    effacerFIltre(btns, liste) {
+    effacerFIltreDiv(btns, liste) {
         for (let i = 0; i < btns.length; i++) {
             const btn = btns[i];
             // Appelle la méthode RecuperationParent
@@ -285,7 +285,7 @@ class FilterForm {
     }
     Filtrer() {
         // Efface les filtres actifs et les sélecteurs de recherche
-        this.effacerFIltre(this.btnCloseDiv, this.selecteListeA, null);
+        this.effacerFIltreDiv(this.btnCloseDiv, this.selecteListeA, null);
         const nouvellesRecettesFiltrees = [];
         // Parcours des recettes
         for (let i = 0; i < this.RecipesData.length; i++) {
